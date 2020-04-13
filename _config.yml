@@ -16,13 +16,9 @@ jianshu_username:   7eac69299be6
 google_analytics:   'UA-163310727-1'            # Format: UA-xxxxxx-xx
 
 
-# Featured Tags
-featured-tags:      true                     # 是否使用首页标签
-featured-condition-size: 1              # 相同标签数量大于这个数，才会出现在首页
 
 # Build settings
 markdown:           kramdown
-theme:              jekyll-theme-clean-blog
 paginate:           10
 paginate_path:      "/posts/page:num/"
 plugins:
