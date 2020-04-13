@@ -1,18 +1,34 @@
-title: 八宝粥的博客
-email: wangzzleo@126.com
-description: >- # this means to ignore newlines until "baseurl:"
-  少说多看
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://www,wangzzleo.online" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: wangzzleo
-github_username:  wangzzleo
+title:              八宝粥的博客
+email:              wangzzleo@126.com
+description:        少说多看
+baseurl: ""
+author:             wangzz
+url:                "https://www,wangzzleo.online" 
+
+# Social Profiles
+twitter_username:   wangzzleo
+github_username:    wangzzleo
+facebook_username:  wangzzleo
+jianshu_username:   7eac69299be6
+
+
+# Google Analytics
+google_analytics:   'UA-163310727-1'            # Format: UA-xxxxxx-xx
+
+
+# Featured Tags
+featured-tags:      true                     # 是否使用首页标签
+featured-condition-size: 1              # 相同标签数量大于这个数，才会出现在首页
 
 # Build settings
-markdown: kramdown
-theme: jekyll-theme-clean-blog
+markdown:           kramdown
+theme:              jekyll-theme-clean-blog
+paginate:           10
+paginate_path:      "/posts/page:num/"
 plugins:
   - jekyll-feed
-
+  - jekyll-paginate
+  - jekyll-sitemap
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
