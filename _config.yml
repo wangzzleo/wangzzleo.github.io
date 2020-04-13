@@ -1,0 +1,26 @@
+title: 八宝粥的博客
+email: wangzzleo@126.com
+description: >- # this means to ignore newlines until "baseurl:"
+  少说多看
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://www,wangzzleo.online" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: wangzzleo
+github_username:  wangzzleo
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-clean-blog
+plugins:
+  - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
