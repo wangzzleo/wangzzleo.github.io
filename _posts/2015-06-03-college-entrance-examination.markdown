@@ -3,7 +3,7 @@ layout: post
 title:  "高考上上签"
 subtitle: "高考来了，高考结束了"
 date:   2015-06-03
-background: '/img/index_bg.jpg'
+background: '/img/cex-bg.jpg'
 ---
 &emsp;&emsp;“小牧，今天就别再学习了，出去转转，放松放松。”老爸关掉了调成静音的电视机，轻轻走到儿子房门口对他说。
 

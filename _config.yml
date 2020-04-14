@@ -11,10 +11,10 @@ github_username:    wangzzleo
 facebook_username:  wangzzleo
 jianshu_username:   7eac69299be6
 
-
+theme: jekyll-theme-clean-blog
 # Google Analytics
 google_analytics:   'UA-163310727-1'            # Format: UA-xxxxxx-xx
-
+google_ads:         ca-pub-6504830816842759
 
 
 # Build settings

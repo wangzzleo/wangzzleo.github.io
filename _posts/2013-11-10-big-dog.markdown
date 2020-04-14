@@ -3,7 +3,7 @@ layout: post
 title:  "大宝和二宝"
 subtitle: "如果二宝还在，哎..."
 date:   2013-11-10
-background: '/img/index_bg.jpg'
+background: '/img/big-dog-bg.jpg'
 ---
 &emsp;&emsp;每到这个时候，大宝的心就开始激动起来，暗暗琢磨起一会应该发生的事。
 

@@ -3,7 +3,7 @@ layout: post
 title:  "故乡的真相"
 subtitle: "找寻故乡的亲情"
 date:   2013-03-30
-background: '/img/index_bg.jpg'
+background: '/img/hometown-bg.jpg'
 ---
 &emsp;&emsp;一直说要记录下当年的故事，却迟迟未动笔。今天，是时候写下一些东西了。
 

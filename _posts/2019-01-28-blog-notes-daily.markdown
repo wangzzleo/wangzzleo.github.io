@@ -3,7 +3,7 @@ layout: post
 title:  "日常更新学习资料"
 subtitle: "日常更新一些博客、学习资料、开发工具等"
 date:   2019-01-28
-background: '/img/index_bg.jpg'
+background: '/img/bnd-bg.jpg'
 ---
 # **1. 纯洁的微笑**
 
