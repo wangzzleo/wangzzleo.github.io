@@ -1,4 +1,5 @@
 title:              八宝粥的博客
+SEOTitle: 八宝粥的博客 | wangzzleo
 email:              wangzzleo@126.com
 description:        少说多看
 baseurl: ""
@@ -19,12 +20,14 @@ google_ads:         ca-pub-6504830816842759
 
 # Build settings
 markdown:           kramdown
+highlighter:        rouge
 paginate:           10
 paginate_path:      "/posts/page:num/"
 plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-paginate
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
