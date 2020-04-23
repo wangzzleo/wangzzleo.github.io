@@ -8,10 +8,10 @@ background: '/img/imac_bg.png'
 
 ![并发](https://upload-images.jianshu.io/upload_images/13572633-5cad6b520a801d08.gif?imageMogr2/auto-orient/strip)
 
-##使用Executors创建线程池：
+##使用`Executors`创建线程池：
 共有四种线程池：
-####1. CachedThreadPool 可缓存线程池
-```
+####1. `CachedThreadPool` 可缓存线程池
+```java
     /**
      * Creates a thread pool that creates new threads as needed, but
      * will reuse previously constructed threads when they are
@@ -51,12 +51,12 @@ background: '/img/imac_bg.png'
     }
 ```
 注意两个要点：
-[1.SynchronousQueue是一个没有数据缓冲的BlockingQueue，生产者线程对其的插入操作put必须等待消费者的移除操作take，反过来也一样。](https://www.cnblogs.com/duanxz/p/3252267.html)
+[1.`SynchronousQueue`是一个没有数据缓冲的`BlockingQueue`，生产者线程对其的插入操作`put`必须等待消费者的移除操作`take`，反过来也一样。](https://www.cnblogs.com/duanxz/p/3252267.html)
 2.核心线程数为0，最大线程总数为int最大值。
-综上：如果创建的线程阻塞，新的task添加进来会不断创建线程，最终耗尽资源。
-####2. FixedThreadPool 定长线程池
+综上：如果创建的线程阻塞，新的`task`添加进来会不断创建线程，最终耗尽资源。
+####2. `FixedThreadPool` 定长线程池
 
-```
+```java
     /**
      * Creates a thread pool that reuses a fixed number of threads
      * operating off a shared unbounded queue.  At any point, at most
@@ -105,7 +105,7 @@ background: '/img/imac_bg.png'
     }
 ```
 注意：上述代码中，线程数量是有限制了，但是队列数量无限制，而根据以下代码：
-```
+```java
     /**
      * Creates a {@code LinkedBlockingQueue} with a capacity of
      * {@link Integer#MAX_VALUE}.
@@ -115,10 +115,10 @@ background: '/img/imac_bg.png'
     }
 ```
 可能队列里堆积大量请求导致OOM。
-####3. SingleThreadPool 只有一个线程的线程池。
+####3. `SingleThreadPool` 只有一个线程的线程池。
 这个只贴一个方法，重载方法没贴。
 
-```
+```java
     /**
      * Creates an Executor that uses a single worker thread operating
      * off an unbounded queue. (Note however that if this single
@@ -140,8 +140,8 @@ background: '/img/imac_bg.png'
     }
 ```
 注意：与2有同样问题。
-####4. ScheduledThreadPool 按照固定频率执行的线程池。
-```
+####4. `ScheduledThreadPool` 按照固定频率执行的线程池。
+```java
    /**
      * Creates a thread pool that can schedule commands to run after a
      * given delay, or to execute periodically.
@@ -174,14 +174,14 @@ background: '/img/imac_bg.png'
 注意：有上述所有问题。
 
 *引用自：阿里巴巴Java开发手册：*
->强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，
+>强制】线程池不允许使用 `Executors` 去创建，而是通过 T`hreadPoolExecutor` 的方式，
 这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。
 
-##使用 new ThreadPoolExecutor创建线程池
-一般使用 new ThreadPoolExecutor方式，Executor的几个静态方法实现也是
-new ThreadPoolExecutor的方式，不过是参数值不一样。
-ThreadPoolExecutor构造方法如下：
-```
+##使用 `new ThreadPoolExecutor`创建线程池
+一般使用 `new ThreadPoolExecutor`方式，`Executor`的几个静态方法实现也是
+`new ThreadPoolExecutor`的方式，不过是参数值不一样。
+`ThreadPoolExecutor`构造方法如下：
+```java
 /**
      * Creates a new {@code ThreadPoolExecutor} with the given initial
      * parameters.
@@ -234,26 +234,25 @@ ThreadPoolExecutor构造方法如下：
         this.handler = handler;
     }
 ```
-1. corePoolSize - 核心线程数。
-2. maximumPoolSize - 池中允许的最大线程数。核心 + 非核心
-3. keepAliveTime - 当线程数大于核心线程数时，为空闲线程闲置时间。如果设置allowCoreThreadTimeOut = true，核心线程也会受此值影响。
-4. unit - keepAliveTime 参数的时间单位。
-5. workQueue - 执行前用于保持任务的队列。此队列仅保持由 execute 方法提交的Runnable 任务。
-常用的workQueue类型：SynchronousQueue、LinkedBlockingQueue、ArrayBlockingQueue、DelayQueue。
-    - SynchronousQueue
-    - LinkedBlockingQueue
-    - ArrayBlockingQueue
-    - DelayQueue
-6. threadFactory - 执行程序创建新线程时使用的工厂。
-7. handler - 由于超出线程范围和队列容量而使执行被阻塞时所使用的处理程序。
-    - CallerRunsPolicy  由调用线程来执行
-    - AbortPolicy  默认的拒绝策略，直接抛出异常
-    - DiscardPolicy  丢弃任务，不抛出异常
+1. `corePoolSize` - 核心线程数。
+2. `maximumPoolSize` - 池中允许的最大线程数。核心 + 非核心
+3. `keepAliveTime` - 当线程数大于核心线程数时，为空闲线程闲置时间。如果设置`allowCoreThreadTimeOut = true`，核心线程也会受此值影响。
+4. `unit` - `keepAliveTime` 参数的时间单位。
+5. `workQueue` - 执行前用于保持任务的队列。此队列仅保持由 `execute` 方法提交的`Runnable` 任务。
+常用的`workQueue`类型：`SynchronousQueue`、`LinkedBlockingQueue`、`ArrayBlockingQueue`、`DelayQueue`。
+    - `SynchronousQueue`
+    - `LinkedBlockingQueue`
+    - `ArrayBlockingQueue`
+    - `DelayQueue`
+6. `threadFactory` - 执行程序创建新线程时使用的工厂。
+7. `handler` - 由于超出线程范围和队列容量而使执行被阻塞时所使用的处理程序。
+    - `CallerRunsPolicy`  由调用线程来执行
+    - `AbortPolicy`  默认的拒绝策略，直接抛出异常
+    - `DiscardPolicy`  丢弃任务，不抛出异常
     ![丢掉](https://upload-images.jianshu.io/upload_images/13572633-c4b8e1d865ee80a8.gif?imageMogr2/auto-orient/strip)
+    - `DiscardOldestPolicy`  丢弃队列前端任务，将新任务加到队列中。
 
-    - DiscardOldestPolicy  丢弃队列前端任务，将新任务加到队列中。
-
-使用execute执行task时，当线程数未到达核心线程数时，新建核心线程；当到达核心线程数量时新的task放到队列里；当队列满时候，新建非核心线程；当线程总数到达maximumPoolSize ，执行丢弃策略。
+使用`execute`执行`task`时，当线程数未到达核心线程数时，新建核心线程；当到达核心线程数量时新的task放到队列里；当队列满时候，新建非核心线程；当线程总数到达`maximumPoolSize` ，执行丢弃策略。
 ###线程池配置 [转载自文章底部链接]
 1.  DB连接池配置
 - 最小连接数=（平均QPS* QPS平均RT +平均TPS* TPS平均RT）／业务机器数
