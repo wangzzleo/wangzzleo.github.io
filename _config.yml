@@ -4,7 +4,7 @@ email:              wangzzleo@126.com
 description:        少说多看
 baseurl: ""
 author:             wangzz
-url:                "https://www,wangzzleo.online" 
+url:                "https://www,wangzzleo.online"
 
 # Social Profiles
 twitter_username:   wangzzleo
@@ -18,8 +18,12 @@ google_ads:         ca-pub-6504830816842759
 
 
 # Build settings
-markdown:           kramdown
 highlighter:        rouge
+markdown:           kramdown
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  syntax_highlighter: rouge
 paginate:           10
 paginate_path:      "/posts/page:num/"
 plugins:
