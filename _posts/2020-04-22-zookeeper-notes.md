@@ -5,7 +5,7 @@ subtitle: ""
 date:   2020-04-22
 background: '/img/imac_bg.png'
 ---
-# Zookee是什么？
+# Zookeeper是什么？
 看[官方描述](https://zookeeper.apache.org/)：
 >ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. All of these kinds of services are used in some form or another by distributed applications. Each time they are implemented there is a lot of work that goes into fixing the bugs and race conditions that are inevitable. Because of the difficulty of implementing these kinds of services, applications initially usually skimp on them, which make them brittle in the presence of change and difficult to manage. Even when done correctly, different implementations of these services lead to management complexity when the applications are deployed.
 >翻译：ZooKeeper是用于维护配置信息，命名，提供分布式同步以及提供组服务的集中式服务。 所有这些类型的服务都以某种形式被分布式应用程序使用。 每次实施它们时，都会进行很多工作来修复不可避免的错误和竞争条件。 由于难以实现这类服务，因此应用程序最初通常会跳过它们，这会使它们在发生更改时变得脆弱并且难以管理。 即使部署正确，这些服务的不同实现也会导致管理复杂。
