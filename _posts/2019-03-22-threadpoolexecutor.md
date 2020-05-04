@@ -6,11 +6,10 @@ date:   2019-03-22
 background: '/img/imac_bg.png'
 ---
 
-![并发](https://upload-images.jianshu.io/upload_images/13572633-5cad6b520a801d08.gif?imageMogr2/auto-orient/strip)
-
-##使用`Executors`创建线程池：
+## 使用`Executors`创建线程池：
 共有四种线程池：
-####1. `CachedThreadPool` 可缓存线程池
+#### 1. `CachedThreadPool` 可缓存线程池
+
 ```java
     /**
      * Creates a thread pool that creates new threads as needed, but
@@ -54,7 +53,8 @@ background: '/img/imac_bg.png'
 [1.`SynchronousQueue`是一个没有数据缓冲的`BlockingQueue`，生产者线程对其的插入操作`put`必须等待消费者的移除操作`take`，反过来也一样。](https://www.cnblogs.com/duanxz/p/3252267.html)
 2.核心线程数为0，最大线程总数为int最大值。
 综上：如果创建的线程阻塞，新的`task`添加进来会不断创建线程，最终耗尽资源。
-####2. `FixedThreadPool` 定长线程池
+
+#### 2. `FixedThreadPool` 定长线程池
 
 ```java
     /**
@@ -115,7 +115,9 @@ background: '/img/imac_bg.png'
     }
 ```
 可能队列里堆积大量请求导致OOM。
-####3. `SingleThreadPool` 只有一个线程的线程池。
+
+#### 3. `SingleThreadPool` 只有一个线程的线程池。
+
 这个只贴一个方法，重载方法没贴。
 
 ```java
@@ -140,7 +142,9 @@ background: '/img/imac_bg.png'
     }
 ```
 注意：与2有同样问题。
-####4. `ScheduledThreadPool` 按照固定频率执行的线程池。
+
+#### 4. `ScheduledThreadPool` 按照固定频率执行的线程池。
+
 ```java
    /**
      * Creates a thread pool that can schedule commands to run after a
@@ -177,7 +181,8 @@ background: '/img/imac_bg.png'
 >强制】线程池不允许使用 `Executors` 去创建，而是通过 T`hreadPoolExecutor` 的方式，
 这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。
 
-##使用 `new ThreadPoolExecutor`创建线程池
+## 使用 `new ThreadPoolExecutor`创建线程池
+
 一般使用 `new ThreadPoolExecutor`方式，`Executor`的几个静态方法实现也是
 `new ThreadPoolExecutor`的方式，不过是参数值不一样。
 `ThreadPoolExecutor`构造方法如下：
@@ -234,6 +239,7 @@ background: '/img/imac_bg.png'
         this.handler = handler;
     }
 ```
+
 1. `corePoolSize` - 核心线程数。
 2. `maximumPoolSize` - 池中允许的最大线程数。核心 + 非核心
 3. `keepAliveTime` - 当线程数大于核心线程数时，为空闲线程闲置时间。如果设置`allowCoreThreadTimeOut = true`，核心线程也会受此值影响。
@@ -253,7 +259,9 @@ background: '/img/imac_bg.png'
     - `DiscardOldestPolicy`  丢弃队列前端任务，将新任务加到队列中。
 
 使用`execute`执行`task`时，当线程数未到达核心线程数时，新建核心线程；当到达核心线程数量时新的task放到队列里；当队列满时候，新建非核心线程；当线程总数到达`maximumPoolSize` ，执行丢弃策略。
-###线程池配置 [转载自文章底部链接]
+
+### 线程池配置 [转载自文章底部链接]
+
 1.  DB连接池配置
 - 最小连接数=（平均QPS* QPS平均RT +平均TPS* TPS平均RT）／业务机器数
 - 最大连接数=（峰值QPS* QPS平均RT +峰值TPS* TPS平均RT）／业务机器数；

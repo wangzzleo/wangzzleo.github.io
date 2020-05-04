@@ -327,7 +327,7 @@ public static void main(String[] args) throws Exception {
     }
   }
 ```
-看这儿时候参考下`mybatis-config.xml`里面的配置。我的代码在这里[GitHub:wangzz]([https://github.com/wangzzleo/wangzz](https://github.com/wangzzleo/wangzz)。配置里mappers就一句：
+看这儿时候参考下`mybatis-config.xml`里面的配置。我的代码在这里[GitHub:wangzz](https://github.com/wangzzleo/wangzz)。配置里mappers就一句：
 ``<mapper resource="resources\test\BlogMapper.xml"/>``
 所以到`else`分支，再到这个分支：
 ```java
