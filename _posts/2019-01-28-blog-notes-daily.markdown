@@ -6,7 +6,8 @@ date:   2019-01-28
 background: '/img/bnd-bg.jpg'
 ---
 # 博客
-### **1. 纯洁的微笑**
+
+## **1. 纯洁的微笑**
 
 学习Spring Boot时候发现的：
 
