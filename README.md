@@ -1,3 +1,5 @@
+![](https://img.shields.io/github/license/wangzzleo/wangzzleo.github.io?style=flat-square)  
+***
 本博客使用[BlackrockDigital](https://github.com/BlackrockDigital)的`startbootstrap-clean-blog-jekyll`模板，[点击查看详细教程](https://github.com/BlackrockDigital/startbootstrap-clean-blog-jekyll)。
 查看该模板[点击这里](http://blackrockdigital.github.io/startbootstrap-clean-blog-jekyll/)。
 ***
