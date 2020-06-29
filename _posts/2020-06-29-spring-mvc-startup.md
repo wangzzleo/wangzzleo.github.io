@@ -65,7 +65,7 @@ Spring的WebApplicationInitializer SPI只由一个方法组成：WebApplicationI
 根据上面的这几个类/接口的Java doc，这几个类在启动时候执行过程如下（首先你需要理解Java SPI）：
 容器初始化过程中，当加载`Spring-web`这个jar包时，在jar文件的`META-INF`文件夹下名为`javax.servlet.ServletContainerInitializer`的文件中，指定了`ServletContainerInitializer`的实现类的全限定名`org.springframework.web.SpringServletContainerInitializer`，在该类`@HandlesTypes`注解指定了一个接口`WebApplicationInitializer`。在容器启动时候，`onStartup`方法会被运行，`WebApplicationInitializer`接口的实现类会当作参数传入`onStartup`方法。`SpringServletContainerInitializer`的`onStartup`方法如下：
 ```java
-@Override
+  @Override
 	public void onStartup(Set<Class<?>> webAppInitializerClasses, ServletContext servletContext)
 			throws ServletException {
 		List<WebApplicationInitializer> initializers = new LinkedList<WebApplicationInitializer>();
