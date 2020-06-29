@@ -65,33 +65,33 @@ Spring的WebApplicationInitializer SPI只由一个方法组成：WebApplicationI
 根据上面的这几个类/接口的Java doc，这几个类在启动时候执行过程如下（首先你需要理解Java SPI）：
 容器初始化过程中，当加载`Spring-web`这个jar包时，在jar文件的`META-INF`文件夹下名为`javax.servlet.ServletContainerInitializer`的文件中，指定了`ServletContainerInitializer`的实现类的全限定名`org.springframework.web.SpringServletContainerInitializer`，在该类`@HandlesTypes`注解指定了一个接口`WebApplicationInitializer`。在容器启动时候，`onStartup`方法会被运行，`WebApplicationInitializer`接口的实现类会当作参数传入`onStartup`方法。`SpringServletContainerInitializer`的`onStartup`方法如下：
 ```java
-  @Override
-	public void onStartup(Set<Class<?>> webAppInitializerClasses, ServletContext servletContext)
-			throws ServletException {
-		List<WebApplicationInitializer> initializers = new LinkedList<WebApplicationInitializer>();
-		if (webAppInitializerClasses != null) {
-			for (Class<?> waiClass : webAppInitializerClasses) {
-				if (!waiClass.isInterface() && !Modifier.isAbstract(waiClass.getModifiers()) &&
-						WebApplicationInitializer.class.isAssignableFrom(waiClass)) {
-					try {
-						initializers.add((WebApplicationInitializer) waiClass.newInstance());
-					}
-					catch (Throwable ex) {
-						throw new ServletException("Failed to instantiate WebApplicationInitializer class", ex);
-					}
-				}
-			}
-		}
-		if (initializers.isEmpty()) {
-			servletContext.log("No Spring WebApplicationInitializer types detected on classpath");
-			return;
-		}
-		servletContext.log(initializers.size() + " Spring WebApplicationInitializers detected on classpath");
-		AnnotationAwareOrderComparator.sort(initializers);
-		for (WebApplicationInitializer initializer : initializers) {
-			initializer.onStartup(servletContext);
-		}
-	}
+@Override
+public void onStartup(Set<Class<?>> webAppInitializerClasses, ServletContext servletContext)
+		throws ServletException {
+  	List<WebApplicationInitializer> initializers = new LinkedList<WebApplicationInitializer>();
+  	if (webAppInitializerClasses != null) {
+  		for (Class<?> waiClass : webAppInitializerClasses) {
+  			if (!waiClass.isInterface() && !Modifier.isAbstract(waiClass.getModifiers()) &&
+  					WebApplicationInitializer.class.isAssignableFrom(waiClass)) {
+  				try {
+  					initializers.add((WebApplicationInitializer) waiClass.newInstance());
+  				}
+  				catch (Throwable ex) {
+  					throw new ServletException("Failed to instantiate WebApplicationInitializer class", ex);
+  				}
+  			}
+  		}
+  	}
+  	if (initializers.isEmpty()) {
+  		servletContext.log("No Spring WebApplicationInitializer types detected on classpath");
+  		return;
+  	}
+  	servletContext.log(initializers.size() + " Spring WebApplicationInitializers detected on classpath");
+  	AnnotationAwareOrderComparator.sort(initializers);
+  	for (WebApplicationInitializer initializer : initializers) {
+  		initializer.onStartup(servletContext);
+  	}
+}
 ```
 `WebApplicationInitializer`接口的非接口和抽象类的子类，它们的`onStartup`方法就会被执行。
 似乎Spring容器启动时依靠的就是这几个，但世实际上，看到Spring-web中`WebApplicationInitializer`接口的几个实现类都是抽象类，而且项目中也没写过这个接口的实现类，看来一般都不用这个方式。
@@ -119,9 +119,9 @@ Spring的WebApplicationInitializer SPI只由一个方法组成：WebApplicationI
 
 看来`ContextLoaderListener`和SpringMVC的启动密不可分了。根据使用经验，一般`web.xml`中也会做这样的配置：
 ```xml
-  <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
+<listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
 ```
 来看下`ServletContextListener`。
 ```java
@@ -136,86 +136,86 @@ public interface ServletContextListener extends EventListener {
 *tomcat*源码
 `ContextConfig`类的`webConfig`及`configureContext`方法
 ```java
-    protected void webConfig() {
-       //解析web.xml
-       //...
-       // Step 9. Apply merged web.xml to Context
-      if (ok) {
-          configureContext(webXml);
-      }
+protected void webConfig() {
+   //解析web.xml
+   //...
+   // Step 9. Apply merged web.xml to Context
+  if (ok) {
+      configureContext(webXml);
+  }
+}
+private void configureContext(WebXml webxml)  {
+    //...
+    for (String listener : webxml.getListeners()) {
+        context.addApplicationListener(listener);
     }
-    private void configureContext(WebXml webxml)  {
-        //...
-        for (String listener : webxml.getListeners()) {
-            context.addApplicationListener(listener);
-        }
-        //...
-    }
+    //...
+}
 ```
 `StandardContext`类的方法：
 ```java
-    /**
-    上面的configureContext里面调用的就是这个方法
-    */
-    @Override
-    public void addApplicationListener(String listener) {
-        synchronized (applicationListenersLock) {
-            String results[] = new String[applicationListeners.length + 1];
-            for (int i = 0; i < applicationListeners.length; i++) {
-                if (listener.equals(applicationListeners[i])) {
-                    log.info(sm.getString("standardContext.duplicateListener",listener));
-                    return;
-                }
-                results[i] = applicationListeners[i];
+/**
+上面的configureContext里面调用的就是这个方法
+*/
+@Override
+public void addApplicationListener(String listener) {
+    synchronized (applicationListenersLock) {
+        String results[] = new String[applicationListeners.length + 1];
+        for (int i = 0; i < applicationListeners.length; i++) {
+            if (listener.equals(applicationListeners[i])) {
+                log.info(sm.getString("standardContext.duplicateListener",listener));
+                return;
             }
-            results[applicationListeners.length] = listener;
-            applicationListeners = results;
+            results[i] = applicationListeners[i];
         }
-        fireContainerEvent("addApplicationListener", listener);
+        results[applicationListeners.length] = listener;
+        applicationListeners = results;
     }
+    fireContainerEvent("addApplicationListener", listener);
+}
 
-    public boolean listenerStart() {
-        //...
-        // 实例化所需的监听器
-        //这里findApplicationListeners方法获取的listeners[]就是上面addApplicationListener里添加的
-        String listeners[] = findApplicationListeners();
-        Object results[] = new Object[listeners.length];
-        boolean ok = true;
-        for (int i = 0; i < results.length; i++) {
-            String listener = listeners[i];
-            results[i] = getInstanceManager().newInstance(listener);
-        }
-        //...
-        setApplicationLifecycleListeners(lifecycleListeners.toArray());
-        //发送应用程序启动事件
-        Object instances[] = getApplicationLifecycleListeners();
-        if (instances == null || instances.length == 0) {
-            return ok;
-        }
-        ServletContextEvent event = new ServletContextEvent(getServletContext());
-        ServletContextEvent tldEvent = null;
-        //...
-        for (Object instance : instances) {
-            if (!(instance instanceof ServletContextListener)) {
-                continue;
-            }
-            ServletContextListener listener = (ServletContextListener) instance;
-            //...
-            listener.contextInitialized(event);
-            //...
-        }
+public boolean listenerStart() {
+    //...
+    // 实例化所需的监听器
+    //这里findApplicationListeners方法获取的listeners[]就是上面addApplicationListener里添加的
+    String listeners[] = findApplicationListeners();
+    Object results[] = new Object[listeners.length];
+    boolean ok = true;
+    for (int i = 0; i < results.length; i++) {
+        String listener = listeners[i];
+        results[i] = getInstanceManager().newInstance(listener);
+    }
+    //...
+    setApplicationLifecycleListeners(lifecycleListeners.toArray());
+    //发送应用程序启动事件
+    Object instances[] = getApplicationLifecycleListeners();
+    if (instances == null || instances.length == 0) {
         return ok;
     }
+    ServletContextEvent event = new ServletContextEvent(getServletContext());
+    ServletContextEvent tldEvent = null;
+    //...
+    for (Object instance : instances) {
+        if (!(instance instanceof ServletContextListener)) {
+            continue;
+        }
+        ServletContextListener listener = (ServletContextListener) instance;
+        //...
+        listener.contextInitialized(event);
+        //...
+    }
+    return ok;
+}
 ```
 至此容器初始化过程中，`contextInitialized`方法的调用栈比较清楚了，接下来咱们再具体到`contextInitialized`方法看看这个方法的具体执行。
 ```java
-     /**
-	 * Initialize the root web application context.
-	 */
-	@Override
-	public void contextInitialized(ServletContextEvent event) {
-		initWebApplicationContext(event.getServletContext());
-	}
+/**
+ * Initialize the root web application context.
+ */
+@Override
+public void contextInitialized(ServletContextEvent event) {
+	initWebApplicationContext(event.getServletContext());
+}
 ```
 这里提到这个方法初始化的是**根应用上下文**，具体各种应用上下文[戳这里](https://www.jianshu.com/p/bd884dd795a1)了解下。
 继续看`initWebApplicationContext`方法，这个方法是`ContextLoader`中的方法，上面`ContextLoaderListener`的JavaDoc也说了：
@@ -226,89 +226,89 @@ public interface ServletContextListener extends EventListener {
 
 这是什么意思呢？就是常用的这个配置：
 ```xml
-  <context-param>
+<context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:spring/spring-*.xml</param-value>
-  </context-param>
+</context-param>
 ```
 接着看代码：
 ``` java
-    public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
-        //...
-        // 将上下文存储在本地实例变量中，以保证在ServletContext关闭时可用。
-        if (this.context == null) {
-            this.context = createWebApplicationContext(servletContext);
-        }
-        if (this.context instanceof ConfigurableWebApplicationContext) {
-            ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) this.context;
-            if (!cwac.isActive()) {
-                // 上下文尚未刷新-->提供设置父上下文、设置应用上下文id等服务。
-                if (cwac.getParent() == null) {
-                    // 上下文实例在没有显式父级的情况下被注入 -> 如果有的话，确定根Web应用上下文的父级。
-                    ApplicationContext parent = loadParentContext(servletContext);
-                    cwac.setParent(parent);
-                }
-                //关键代码
-                configureAndRefreshWebApplicationContext(cwac, servletContext);
-            }
-        }
-        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.context);
-        ClassLoader ccl = Thread.currentThread().getContextClassLoader();
-        if (ccl == ContextLoader.class.getClassLoader()) {
-            currentContext = this.context;
-        }
-        else if (ccl != null) {
-            currentContextPerThread.put(ccl, this.context);
-        }
-        return this.context;
+public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
+    //...
+    // 将上下文存储在本地实例变量中，以保证在ServletContext关闭时可用。
+    if (this.context == null) {
+        this.context = createWebApplicationContext(servletContext);
     }
+    if (this.context instanceof ConfigurableWebApplicationContext) {
+        ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) this.context;
+        if (!cwac.isActive()) {
+            // 上下文尚未刷新-->提供设置父上下文、设置应用上下文id等服务。
+            if (cwac.getParent() == null) {
+                // 上下文实例在没有显式父级的情况下被注入 -> 如果有的话，确定根Web应用上下文的父级。
+                ApplicationContext parent = loadParentContext(servletContext);
+                cwac.setParent(parent);
+            }
+            //关键代码
+            configureAndRefreshWebApplicationContext(cwac, servletContext);
+        }
+    }
+    servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.context);
+    ClassLoader ccl = Thread.currentThread().getContextClassLoader();
+    if (ccl == ContextLoader.class.getClassLoader()) {
+        currentContext = this.context;
+    }
+    else if (ccl != null) {
+        currentContextPerThread.put(ccl, this.context);
+    }
+    return this.context;
+}
 ```
 这里再看下`createWebApplicationContext`方法：
 ```java
-    protected WebApplicationContext createWebApplicationContext(ServletContext sc) {
-		Class<?> contextClass = determineContextClass(sc);
-		if (!ConfigurableWebApplicationContext.class.isAssignableFrom(contextClass)) {
-			throw new ApplicationContextException("Custom context class [" + contextClass.getName() +
-					"] is not of type [" + ConfigurableWebApplicationContext.class.getName() + "]");
-		}
-		return (ConfigurableWebApplicationContext) BeanUtils.instantiateClass(contextClass);
-	}
+protected WebApplicationContext createWebApplicationContext(ServletContext sc) {
+    Class<?> contextClass = determineContextClass(sc);
+    if (!ConfigurableWebApplicationContext.class.isAssignableFrom(contextClass)) {
+    	throw new ApplicationContextException("Custom context class [" + contextClass.getName() +
+    			"] is not of type [" + ConfigurableWebApplicationContext.class.getName() + "]");
+    }
+    return (ConfigurableWebApplicationContext) BeanUtils.instantiateClass(contextClass);
+}
 ```
 
 `configureAndRefreshWebApplicationContext`方法
 ```java
-	protected void configureAndRefreshWebApplicationContext(ConfigurableWebApplicationContext wac, ServletContext sc) {
-		if (ObjectUtils.identityToString(wac).equals(wac.getId())) {
-			// The application context id is still set to its original default value
-			// -> assign a more useful id based on available information
-			String idParam = sc.getInitParameter(CONTEXT_ID_PARAM);
-			if (idParam != null) {
-				wac.setId(idParam);
-			}
-			else {
-				// Generate default id...
-				wac.setId(ConfigurableWebApplicationContext.APPLICATION_CONTEXT_ID_PREFIX +
-						ObjectUtils.getDisplayString(sc.getContextPath()));
-			}
-		}
+protected void configureAndRefreshWebApplicationContext(ConfigurableWebApplicationContext wac, ServletContext sc) {
+    if (ObjectUtils.identityToString(wac).equals(wac.getId())) {
+    	// The application context id is still set to its original default value
+    	// -> assign a more useful id based on available information
+    	String idParam = sc.getInitParameter(CONTEXT_ID_PARAM);
+    	if (idParam != null) {
+    		wac.setId(idParam);
+    	}
+    	else {
+    		// Generate default id...
+    		wac.setId(ConfigurableWebApplicationContext.APPLICATION_CONTEXT_ID_PREFIX +
+    				ObjectUtils.getDisplayString(sc.getContextPath()));
+    	}
+    }
 
-		wac.setServletContext(sc);
-		String configLocationParam = sc.getInitParameter(CONFIG_LOCATION_PARAM);
-		if (configLocationParam != null) {
-			wac.setConfigLocation(configLocationParam);
-		}
+    wac.setServletContext(sc);
+    String configLocationParam = sc.getInitParameter(CONFIG_LOCATION_PARAM);
+    if (configLocationParam != null) {
+    	wac.setConfigLocation(configLocationParam);
+    }
 
-		// The wac environment's #initPropertySources will be called in any case when the context
-		// is refreshed; do it eagerly here to ensure servlet property sources are in place for
-		// use in any post-processing or initialization that occurs below prior to #refresh
-		ConfigurableEnvironment env = wac.getEnvironment();
-		if (env instanceof ConfigurableWebEnvironment) {
-			((ConfigurableWebEnvironment) env).initPropertySources(sc, null);
-		}
+    // The wac environment's #initPropertySources will be called in any case when the context
+    // is refreshed; do it eagerly here to ensure servlet property sources are in place for
+    // use in any post-processing or initialization that occurs below prior to #refresh
+    ConfigurableEnvironment env = wac.getEnvironment();
+    if (env instanceof ConfigurableWebEnvironment) {
+    	((ConfigurableWebEnvironment) env).initPropertySources(sc, null);
+    }
 
-		customizeContext(sc, wac);
-		wac.refresh();
-	}
+    customizeContext(sc, wac);
+    wac.refresh();
+}
 ```
 
 
