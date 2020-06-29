@@ -4,3 +4,9 @@ _site
 *.gem
 Gemfile.lock
 node_modules
+
+#mac
+.DS_Store
+
+#ide
+.idea/*
