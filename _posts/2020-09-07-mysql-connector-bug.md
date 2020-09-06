@@ -7,6 +7,7 @@ background: '/img/imac_bg.png'
 ---
 
 
+
 # 背景
 项目组最近遇到了一个问题，各应用执行SQL偶尔会变慢，而且无规律可循。因为一些原因，最近数据库环境进行了迁移，访问数据库中间多了一层硬件防火墙，应用服务器也安装了一些杀毒软件。
 
@@ -276,8 +277,8 @@ private void initValidConnectionChecker() {
 虽然执行失败了，也算是没有再报NPE了。此时查看`DruidDataSource`对象，剩余的连接依然有效，`Destroy`线程依然在忙碌的进行无效的检查。
 以上的测试代码都在我的GitHub仓库里，地址如下：https://github.com/wangzzleo/druid-bug-demo
 ### 异常5
-
-### 异常6
+以上的部分虽然是`Druid`的校验出了问题，虽然有代码默认值的问题，但是其实问题主要不在这儿，主要还是`MySQL-Connectot/J`以不期望的方式抛出了一个NPE，这个问题我提到了MySQL的bug系统里，链接如下：[https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67](https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67)，说实话，我其实不是很了解人家的代码，不知道是否有意为之，但是感觉NPE一般都不是有意为之的。这个bug并不是我提的，是另一个人提交的，我就是添加了一条评论告诉别人怎么复现。MySQL停机的问题应该不常见，但是在集群下有MySQL服务挂掉应该也是比较常模拟的故障，如果大家有这方面经验也可以告诉我下，战五渣的我其实这方面经验不是很多。后面我会给出我自己的理解，今天就先更新到这儿。另外，Druid是不是也可以提哥issue什么的，有读者看到可以帮忙提交一下，或者我改天提下。
+### 异常6（这个可以不看，我还没细研究）
 StatementImpl#executeQuery  1200行  抛出NPE
 原因：
 
@@ -288,7 +289,7 @@ StatementImpl 类：
 
 
 
-# 推测
+# 推测（下面的内容等待整理，比较混乱）
 
 
 Druid  DataSource 测试连接有效性问题
