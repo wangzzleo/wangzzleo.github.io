@@ -7,9 +7,8 @@ background: '/img/imac_bg.png'
 ---
 
 
-
 # 背景
-项目组最近遇到了一个问题，各应用执行SQL偶尔会变慢，而且无规律可循。因为一些原因，最近数据库环境进行了迁移，访问数据库中间多了一层硬件防火墙，应用服务器也安装了一些杀毒软件。
+项目组最近遇到了一个问题，各应用执行SQL偶尔会变慢，而且无规律可循。因为一些原因，最近数据库环境进行了迁移，访问数据库中间多了一层硬件防火墙，应用服务器也安装了一些杀毒软件。查看慢SQL和GC日志，发现并无异常。
 
 # 描述
 ## 项目环境
@@ -236,11 +235,11 @@ private void initValidConnectionChecker() {
 那就到`validConnectionChecker`来看看。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200906174956613.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
-我使用的是版本的MySQL驱动`ConnectionImpl`类的`pingInternal`方法是存在的（我看5.1.x版本这个方法就存在了），所以这里将反射执行`pingInternal`方法来进行连接的检查。后面省略的代码部分是该方法不存在时候使用`validationQuery`来进行检查。经过debug发现，问题就出在反射执行`pingInternal`这里。该方法会在MySQL服务刚刚关闭时候出现空指针异常，后续走`pingInternal`方法每次都会抛出NPE（因为对MySQL驱动并不了解，暂时不清楚抛出NPE是否有意为之，但是从代码看应该不是，这个地方咱们后面再谈）。如果这儿出现NPE会导致上面问题呢？咱们来看下这儿反射执行的代码：
+我这里使用的是8.0.23版本的MySQL驱动，该版本`ConnectionImpl`类的`pingInternal`方法是存在的（我看了下，5.1.x版本这个方法就存在了），所以这里将反射执行`pingInternal`方法来进行连接的检查。后面省略的代码部分是该方法不存在时候使用`validationQuery`来进行检查。经过debug发现，问题就出在反射执行`pingInternal`这里。该方法会在MySQL服务刚刚关闭时候出现空指针异常，后续走`pingInternal`方法每次都会抛出NPE（因为对MySQL驱动并不了解，暂时不清楚抛出NPE是否有意为之，但是从代码看应该不是，这个地方咱们后面再谈）。如果这儿出现NPE会导致什么问题呢？咱们来看下这儿反射执行的代码：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200906180706587.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
-显然这里会抛出`NPE`，再回到上层调用方法看下：
+这里会抛出`NPE`，再回到上层调用方法看下：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200906192836440.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
-可以看到这里对除`SQLException`的地方没有直接抛出，本意是在下面判断`result`为`false`时，包装成`SQLException`再抛出，却因为`result`默认值是`true`，而`validConnectionChecker#isValidConnection`却因为异常的抛出而没有将`result`的默认值进行修改，导致这个尴尬的结果。
+可以看到这里对除`SQLException`外的异常没有直接抛出，本意是在下面判断`result`为`false`时，包装成`SQLException`再抛出，却因为`result`默认值是`true`，而`validConnectionChecker#isValidConnection`却因为异常的抛出而没有将`result`的默认值进行修改，导致这个尴尬的结果。
 但是你如果继续测试执行sql，你会发现并没有出现意外的情况，这是为什么？
 来看一下获取连接的方法：
 ```java
@@ -262,7 +261,7 @@ private void initValidConnectionChecker() {
 ```
 简单看下`getConnection`方法，这里是责任链模式的实际应用。点进去会发现最终还是会进入`getConnectionDirect`方法，直接看这个方法吧：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200906231918976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
-具体的配置我已经标出来了，`testOnBorrow`默认值是false，如果配置成true，和下面的代码走的一样的校验。而`testWhileIdle`建议是配置为`true`，那如果配置为true，并且满足空闲时间大于`timeBetweenEvictionRunsMillis`，来看下对应的代码：
+具体的配置我已经标出来了，`testOnBorrow`默认值是false，如果配置成true，和下面的代码走一样的校验。而`testWhileIdle`建议是配置为`true`，那如果配置为true，并且满足空闲时间大于`timeBetweenEvictionRunsMillis`，来看下对应的代码：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200906233343510.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
 同样抛出异常，这里直接返回来false，再到上层就丢弃这个连接了，所以这种情况下是不会有问题的。但是正如获取连接的方法注释的那样：
 > ![if (idleMillis >= timeBetweenEvictionRunsMillis
@@ -270,100 +269,159 @@ private void initValidConnectionChecker() {
                             )](https://img-blog.csdnimg.cn/20200906233606623.png#pic_center)
 
 
-因为`timeBetweenEvictionRunsMillis`同样是`Destroy`线程休眠的时间，理想情况下，`idleMillis`应该和`timeBetweenEvictionRunsMillis`差不多，但是如果连接长时间不用，这个值肯定还是略大于`idleMillis`，所以是会走到这个逻辑里的。如果刚好在这个时间间隙中获取连接呢？也就是说，`destroy`线程检查连接时候抛出了NPE，这个连接实际无效了，但是连接的`lastActiveTimeMillis`在上一次检查时更新了，这时候程序来拿连接了会怎么样？我们来试下：
+因为`timeBetweenEvictionRunsMillis`同样是`Destroy`线程休眠的时间，理想情况下，`idleMillis`应该和`timeBetweenEvictionRunsMillis`差不多，但是如果连接长时间不用，这个值肯定还是略大于`idleMillis`，所以是会走到这个逻辑里的。如果刚好在这个时间间隙中获取连接呢？也就是说，`destroy`线程检查连接时候抛出了NPE，这个连接实际无效了，但是连接的`lastActiveTimeMillis`在上一次检查时更新了，这时候程序来拿连接了会怎么样？下面是测试方法，我们来试下：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200907004002593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
 发现连接拿到了，`Statement`语句对象也创建了，直到执行sql时候报`CommunicationsException`，如图：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200907004217727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
-虽然执行失败了，也算是没有再报NPE了。此时查看`DruidDataSource`对象，剩余的连接依然有效，`Destroy`线程依然在忙碌的进行无效的检查。
-以上的测试代码都在我的GitHub仓库里，地址如下：https://github.com/wangzzleo/druid-bug-demo
+虽然执行失败了，也算是没有再报NPE了。此时查看`DruidDataSource`对象，会发现剩余的连接依然有效，`Destroy`线程依然在忙碌的进行无效的检查（无用功）。
+以上的测试代码都在我的GitHub仓库里，地址如下：[https://github.com/wangzzleo/druid-bug-demo](https://github.com/wangzzleo/druid-bug-demo)
 ### 异常5
-以上的部分虽然是`Druid`的校验出了问题，虽然有代码默认值的问题，但是其实问题主要不在这儿，主要还是`MySQL-Connectot/J`以不期望的方式抛出了一个NPE，这个问题我提到了MySQL的bug系统里，链接如下：[https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67](https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67)，说实话，我其实不是很了解人家的代码，不知道是否有意为之，但是感觉NPE一般都不是有意为之的。这个bug并不是我提的，是另一个人提交的，我就是添加了一条评论告诉别人怎么复现。MySQL停机的问题应该不常见，但是在集群下有MySQL服务挂掉应该也是比较常模拟的故障，如果大家有这方面经验也可以告诉我下，战五渣的我其实这方面经验不是很多。后面我会给出我自己的理解，今天就先更新到这儿。另外，Druid是不是也可以提哥issue什么的，有读者看到可以帮忙提交一下，或者我改天提下。
-### 异常6（这个可以不看，我还没细研究）
-StatementImpl#executeQuery  1200行  抛出NPE
-原因：
+以上部分虽然看起来是`Druid`的校验出了问题，虽然`Druid`的有代码默认值的问题，但其实主要问题不在这儿，主要还是`MySQL-Connectot/J`以不期望的方式抛出了一个NPE，这个问题我提到了MySQL的bug系统里，链接如下：[https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67](https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67)，说实话，我其实不是很了解人家的代码，不知道是否有意为之，但是感觉NPE一般都不是有意为之的。这个bug并不是我提的，是另一个人提交的，我就是添加了一条评论告诉别人怎么复现。MySQL停机的问题应该不常见，但是在MySQL集群环境下有MySQL服务挂掉应该也是比较常模拟的故障，如果大家有这方面经验也可以告诉我下，战五渣的我其实这方面经验不是很多。后面我会给出我自己的理解，今天就先更新到这儿。另外，Druid是不是也可以提个`issue`什么的，有读者看到可以帮忙提交一下，或者我改天提下。
 
-StatementImpl 类：
-1186行，执行时将session设置为空，1220执行清空定时器时，抛出NPE。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200903180801277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200903180810966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
+上面说到`MySQL-Connectot/J`以不期望的方式抛出了一个NPE，咱们就来看下这是怎么回事吧。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200907164519552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
+方法调用栈如上所示，这里的重点就是`NativeProtocol#sendCommand`方法。该类接口上说明如下：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200907164647904.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
+这应该是一个核心方法，与数据库的交互很关键。NPE也是这儿抛出的，接下来看下什么情况下会抛出NPE。`com.mysql.cj.Session`方法上有这样的说明：
+>Session exposes logical level which user API uses internally to call  Protocol methods. It's a higher-level abstraction than MySQL server session (ServerSession). Protocol and ServerSession methods should never be used directly from user API.
+>Session暴露了逻辑层次，用户API在内部使用它来调用协议方法。它是比MySQL服务器会话（ServerSession）更高层次的抽象。Protocol和ServerSession方法不应该直接从用户API中使用。
 
+所以`Protocol`里面的方法是不应该直接调用的，而是调用`Session`提供的方法。（但是不是一般都不直接调用`Session`，而是调用`Connection`提供的方法？）在这里看下这个方法都是哪些地方调用了，为什么看这个呢，这个后面会说到。（方法是在方法上面右键，再点击`Find Usages`）
+这里可以看到这个方法只在`NativeProtocol`类内部和上面提到的`NativeSession#sendCommand`方法里面调用。而除了`NativeSession#sendCommand`方法可以设置`timeoutMillis`外，其余的地方`timeoutMillis`都是0。再接着看`NativeSession#sendCommand`方法的调用，会发现除了上面提到的`NativeSession#ping`方法外，其余所有调用的地方这个值设置的都是0。（无图言j）
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020090717203550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
 
+这个超时时间是读取数据时的超时时间，执行SQL的时间是没法预料的，所以猜测是这个原因，除了`ping`外，所有执行SQL地方的执行时间均为0。这个地方先记住。
+现在终于到了关键的方法`NativeProtocol#sendCommand`了：
+```java
+    public final NativePacketPayload sendCommand(Message queryPacket, boolean skipCheck, int timeoutMillis) {
+        int command = queryPacket.getByteBuffer()[0];
+        this.commandCount++;
 
-# 推测（下面的内容等待整理，比较混乱）
+        if (this.queryInterceptors != null) {
+            NativePacketPayload interceptedPacketPayload = (NativePacketPayload) invokeQueryInterceptorsPre(queryPacket, false);
 
+            if (interceptedPacketPayload != null) {
+                return interceptedPacketPayload;
+            }
+        }
 
-Druid  DataSource 测试连接有效性问题
+        this.packetReader.resetMessageSequence();
 
-1. 测试连接有效性是在destroy线程里面测试的，usePingMethod 配置为true（暂时不清楚哪里配置的），则默认走的是MSSQLValidConnectionChecker#isValidConnection检查有效性
+        int oldTimeout = 0;
 
- 问题是当连接关闭时，MySQL驱动的socket引用将被设置为null，继续走该方法就会报空指针异常，而空指针异常检测方法里面并未抛出，直接吞掉了。。。
+        if (timeoutMillis != 0) {
+            try {
+            	// 设置超时时间
+                oldTimeout = this.socketConnection.getMysqlSocket().getSoTimeout();
+                this.socketConnection.getMysqlSocket().setSoTimeout(timeoutMillis);
+            } catch (IOException e) {
+                throw ExceptionFactory.createCommunicationsException(this.propertySet, this.serverSession, this.getPacketSentTimeHolder(),
+                        this.getPacketReceivedTimeHolder(), e, getExceptionInterceptor());
+            }
+        }
 
+        try {
 
+            checkForOutstandingStreamingData();
 
- 猜测- 是因为三个数据源是同一个库，检测到连接中断就会将socket设置为
+            // Clear serverStatus...this value is guarded by an external mutex, as you can only ever be processing one command at a time
+            this.serverSession.setStatusFlags(0, true);
+            this.hadWarnings = false;
+            this.setWarningCount(0);
 
+            //
+            // Compressed input stream needs cleared at beginning of each command execution...
+            //
+            if (this.useCompression) {
+                int bytesLeft = this.socketConnection.getMysqlInput().available();
 
+                if (bytesLeft > 0) {
+                    this.socketConnection.getMysqlInput().skip(bytesLeft);
+                }
+            }
 
- 猜测：      NativeProtocol#checkErrorMessage 方法设置空socket
+            try {
+                clearInputStream();
+                this.packetSequence = -1;
+                // 发送数据包
+                send(queryPacket, queryPacket.getPosition());
 
+            } catch (CJException ex) {
+                // don't wrap CJExceptions
+                throw ex;
+            } catch (Exception ex) {
+                throw ExceptionFactory.createCommunicationsException(this.propertySet, this.serverSession, this.getPacketSentTimeHolder(),
+                        this.getPacketReceivedTimeHolder(), ex, getExceptionInterceptor());
+            }
 
+            NativePacketPayload returnPacket = null;
 
-第一次验证连接，send(queryPacket, queryPacket.getPosition());抛出异常，不会走到销毁socket那步，则不报空指针，
-相当于destroy验证连接无效，此时正常关闭连接，关闭连接之后不在走此函数，不用考虑空指针异常情况。
+            if (!skipCheck) {
+                if ((command == NativeConstants.COM_STMT_EXECUTE) || (command == NativeConstants.COM_STMT_RESET)) {
+                    this.packetReader.resetMessageSequence();
+                }
+				// 检查回复包中是否有错误，如果没有，则返回回复包，准备读取。
+                returnPacket = checkErrorMessage(command);
 
+                if (this.queryInterceptors != null) {
+                    returnPacket = (NativePacketPayload) invokeQueryInterceptorsPost(queryPacket, returnPacket, false);
+                }
+            }
 
+            return returnPacket;
+        } catch (IOException ioEx) {
+            this.serverSession.preserveOldTransactionState();
+            throw ExceptionFactory.createCommunicationsException(this.propertySet, this.serverSession, this.getPacketSentTimeHolder(),
+                    this.getPacketReceivedTimeHolder(), ioEx, getExceptionInterceptor());
+        } catch (CJException e) {
+            this.serverSession.preserveOldTransactionState();
+            throw e;
 
+        } finally {
+        	// 关键就在这个地方，不太清楚这个地方为什么要设置
+            if (timeoutMillis != 0) {
+                try {
+                    this.socketConnection.getMysqlSocket().setSoTimeout(oldTimeout);
+                } catch (IOException e) {
+                    throw ExceptionFactory.createCommunicationsException(this.propertySet, this.serverSession, this.getPacketSentTimeHolder(),
+                            this.getPacketReceivedTimeHolder(), e, getExceptionInterceptor());
+                }
+            }
+        }
+    }
+```
+debug发现（debug时候记得设置超时时间，不然不会走到这儿），抛出空指针异常的地方 在最后`finally`语句块的`this.socketConnection.getMysqlSocket().setSoTimeout(oldTimeout);`这条语句里，这个地方`getMysqlSocket()`获取`mySqlSocket`时候抛出了NPE。继续研究发现，正是在`returnPacket = checkErrorMessage(command);`检查回复包错误时候将`mySqlSocket`设置为`null`了。具体的过程不再赘述，读者可以直接进入`SimplePacketReader#readHeader`查看，正是在这里读取消息头时候抛出`IOException`，继而进入`catch`语句块强制关闭连接，将`mySqlSocket`设置为`null`。为什么`finally`代码块要这么写呢？去GitHub看下这段代码的提交记录，似乎最开始这个类还叫`MysqlaProtocol `时候，这个地方就这么写了。具体是什么原因我也不清楚，有看到的朋友可以给我解释下。而正是这里的空指针异常让`Druid`检查连接的地方错误将失效连接判断为有效，再次验证时候刚进入`sendCommnd`方法走到`// 设置超时时间
+                oldTimeout = this.socketConnection.getMysqlSocket().getSoTimeout();`，就会抛出NPE，所以每次验证都无法正确判断。
 
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200907173321752.png#pic_center)
+有的朋友可能会问，这个方法每次与数据库交互都会使用，为什么从来没出错过，这就是为什么上面提到，除了`ConnectionIml#ping`方法外，别的地方超时时间都是0，不会走到这段逻辑里。
 
+至此，异常分析都结束了，那为什么会出现这样的情况呢？
 
-NativeProtocol#sendCommand出错的情况：
-设置超时时间>0，send(queryPacket, queryPacket.getPosition()) 发包失败，但是没有报异常，因为skipCheck在这里固定是false，此时走到checkErrorMessage方法，将socket设置为null，再进入finally，#setSoTimeout报空指针异常
-2020年9月2日15:47:15   复现成功：
+# 推测
+
+### 验证
+下面是我当时验证的过程：
+
+`NativeProtocol#sendCommand`出错的情况：
+设置超时时间>0，`send(queryPacket, queryPacket.getPosition())` 发包，但是没有报异常，因为`skipCheck`在这里固定是`false`，此时走到`checkErrorMessage`方法，将`socket`设置为`null`，再进入`finally`，`setSoTimeout`报空指针异常
+
 步骤如下：
-1. 关闭数据库，此时服务器TCP端口处于FIN_WAIT_2状态，可以接受数据但是不能返回响应；
-2. 接下来，send(queryPacket, queryPacket.getPosition())发送数据，发送成功（可能是进入缓冲区，也可能是因为服务器此时还可以接受数据）
-3. 此时进入checkErrorMessage(command)方法，该方法最终进入SimplePacketReader#readHeader方法，读取响应数据未读取到抛出异常，catch语句块捕获异常，并将this.mysqlSocket = null;this.mysqlInput = null;this.mysqlOutput = null;执行
-4. 此时再回到NativeProtocol#sendCommand,进入finally语句块，该语句块不知为何重新设置了超时时间，this.socketConnection.getMysqlSocket().setSoTimeout(oldTimeout);，由3可知，此时socket为空，所以会抛出NPE。
+1. 关闭数据库，此时服务器`TCP`端口处于`FIN_WAIT_2`状态，可以接受数据但是不能返回响应；
+2. 接下来，`send(queryPacket, queryPacket.getPosition())`发送数据，发送成功（可能是进入缓冲区，也可能是因为服务器此时还可以接受数据）
+3. 此时进入`checkErrorMessage(command)`方法，该方法最终进入`SimplePacketReader#readHeader`方法，读取响应数据未读取到抛出异常，catch语句块捕获异常，并执行`mysqlSocket = null`。
+4. 此时再回到`NativeProtocol#sendCommand`,进入`finally`语句块，该语句块不知为何重新设置了超时时间，`this.socketConnection.getMysqlSocket().setSoTimeout(oldTimeout);`，由3可知，此时`socket`为空，所以会抛出`NPE`。
 
 
 
-这种情况出现的要点是：send(queryPacket, queryPacket.getPosition());函数不报错，调用checkErrorMessage#checkErrorMessage，内部调用readMessage(this.reusablePacket);，再调用this.packetReader.readHeader();，此时出现IOException或CJPacketTooBigException会关闭连接。
+这种情况出现的要点是：`send(queryPacket, queryPacket.getPosition());`函数不报错，调用`checkErrorMessage#checkErrorMessage`，内部调用`readMessage(this.reusablePacket);`，再调用`this.packetReader.readHeader();`，此时出现`IOException`或`CJPacketTooBigException`会关闭连接。
 
 
 
-现在的状况是：1+n个连接，第一个连接send不会报错，checkErrorMessage报错（CJException）会将socket引用置为空，后续则send出错，进入正常状况
-
-经过尝试，没有复现出来，两条都出问题了
-
-
-
-发现：
-抓包收到了两条回复，连接重置。 猜测：MySQL服务器刚刚听了不会马上断掉接口（确实不会马上断掉，而是进入FIN_WAIT_2状态）
-验证1：
-抓包
-验证2：
-第一次send发送包之后停留时间多一点，等server完全停止再继续发message那个（测试结果：还是能拿到数据，猜测是从buffer里面拿的，能拿到就不报错）
-
-
-
-
-疑问：
-那为什么在服务器关闭后，第一条访问的send不会报错？因为服务器处于FIN_WAIT_2状态还是可以接受数据
-
-
+### 推测
+那为什么在服务器关闭后，第一条访问的send不会报错？因为服务器处于FIN_WAIT_2状态还是可以接受数据?
 checkErrorMessage 为什么异常？ 因为没有读到数据？
-
-
-
-后续：
-这个方法在设置了超时时间的情况下，有可能报空指针异常。 当连接中断，服务器的tcp连接刚好处于 fin_wait 状态时候，服务器好像还能接受数据，但是没有相应写回去    后面有一个checkErrorMessage 方法，没有相应数据就抛异常了，然后把socket设置为null。  NativeProtoc#sendCommand方法的finally方法设置超时时间的时候会再再给socket设置一遍超时时间（不知道为这么干），这时候就抛空指针异常了
-
-然后druid检查连接的方法里（DruidAbstractDataSource#validateConnection）里面把SQLException抛出了，但是没有抛别的异常，接着就把这个当做正常情况处理了，其实连接都失效了
-
-
-
-
-
+(TCP的知识我需要加强一下了)
 
 
 
