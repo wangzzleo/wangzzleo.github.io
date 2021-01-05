@@ -58,7 +58,7 @@ JDK8的`ThreadLocal`地址点[这里](https://github.com/frohoff/jdk8u-jdk/blob/
 
 直接使用官方实例：
 
-```
+```java
     public class ThreadId {
         // Atomic integer containing the next thread ID to be assigned
         private static final AtomicInteger nextId = new AtomicInteger(0);
@@ -87,7 +87,7 @@ JDK8的`ThreadLocal`地址点[这里](https://github.com/frohoff/jdk8u-jdk/blob/
 
 先看`get`方法：
 
-```
+```java
     /**
      * 返回当前线程的这个线程本地变量的副本中的值，如果该变量对当
      * 前线程没有值，则首先将其初始化为调用initialValue方法返回的
@@ -111,7 +111,7 @@ JDK8的`ThreadLocal`地址点[这里](https://github.com/frohoff/jdk8u-jdk/blob/
     }
 ```
 
-```
+```java
      /**
      * 获取与ThreadLocal关联的map。在InheritableThreadLocal中被重写。
      *
