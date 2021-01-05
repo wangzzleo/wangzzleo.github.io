@@ -61,18 +61,18 @@ background: '/img/imac_bg.png'
 >***可到达性***
 >
 >Going from strongest to weakest, the different levels of reachability reflect the life cycle of an object. They are operationally defined as follows:  
->从最强到最弱，不同级别的可到达性反映了一个物体的生命周期。它们在操作上定义如下：
+>从最强到最弱，不同级别的可到达性反映了一个对象的生命周期。它们在操作上定义如下：
 >
 >- An object is strongly reachable if it can be reached by some thread without traversing any reference objects. A newly-created object is strongly reachable by the thread that created it.
->- 如果一个对象可以被某个线程到达而不需要遍历任何参考对象，那么这个对象就是强可到达的。一个新创建的对象是由创建它的线程强到达的。
+>- 如果一个对象可以被某个线程到达而不需要遍历任何引用对象，那么这个对象就是强可到达的。一个新创建的对象是由创建它的线程强可达的。
 >- An object is softly reachable if it is not strongly reachable but can be reached by traversing a soft reference.
->- 如果一个对象不是强可达的，但可以通过遍历一个软引用来达到，那么这个对象就是软可达的。
+>- 如果一个对象不是强可达的，但可以通过遍历一个软引用来到达，那么这个对象就是软可达的。
 >- An object is weakly reachable if it is neither strongly nor softly reachable but can be reached by traversing a weak reference. When the weak references to a weakly-reachable object are cleared, the object becomes eligible for finalization.
->- 如果一个对象既不是强可到达也不是软可到达，但可以通过遍历一个弱引用来到达，那么这个对象就是弱可到达的。当弱可达对象的弱引用被清除时，对象就有资格被最终化。
+>- 如果一个对象既不是强可到达也不是软可到达，但可以通过遍历一个弱引用来到达，那么这个对象就是弱可达的。当弱可达对象的弱引用被清除时，对象就有资格被最终化。
 >- An object is phantom reachable if it is neither strongly, softly, nor weakly reachable, it has been finalized, and some phantom reference refers to it.
 >- 如果一个对象既不是强、软、弱可到达，它已经被最终化，并且有一些幻象引用指向它，那么这个对象就是幻象可到达的。
 >- Finally, an object is unreachable, and therefore eligible for reclamation, when it is not reachable in any of the above ways.
->- 最后，当一个对象在上述任何一种方式下都无法到达时，该对象就是不可到达的，因此可以被回收。
+>- 最后，当一个对象在上述任何一种方式下都无法到达时，该对象就是不可达的，因此可以被回收。
 
 好吧，这个翻译又臭又长。
 
