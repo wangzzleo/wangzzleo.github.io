@@ -268,6 +268,7 @@ JDK8的`ThreadLocal`地址点[这里](https://github.com/frohoff/jdk8u-jdk/blob/
         
     } 
 ```
+
 2. 咱们一般使用`ThreadLocal`时候都是这样的姿势：```public static ThreadLocal<Long> waitNanosLocal = new ThreadLocal<Long>();```，也就是说`ThreadLocal`是强可达，此时不用考虑`ThreadLocal`在内存不足时被当作垃圾回收的情况。
 
 而如果我们某种使用的场景下（`ThreadLocal`我使用的比较少，不知道是哪个场景，我看有的框架代码里有别的使用情况，但是不是很了解，就不在这里当作例子），`ThreadLocal`不再强可达，那此时要注意，发生gc后，`ThreadLocal`被回收，即`ThreadLocalMap`的`Entry`的key变成null，但是value依旧强可达，若是使用完后没有调用`ThreadLocal#remove`方法，而线程又一直存活，就有可能内存溢出。不过也不是绝对的，使用`set`、`get`后，都会清除key为null的Entry。
