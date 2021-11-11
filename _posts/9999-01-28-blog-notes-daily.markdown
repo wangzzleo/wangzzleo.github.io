@@ -2,23 +2,23 @@
 layout: post
 title:  "日常更新学习资料"
 subtitle: "日常更新一些博客、学习资料、开发工具等"
-date:   2019-01-28
+date:   9999-01-28
 background: '/img/bnd-bg.jpg'
 ---
-# 博客
 
+# 博客
 ## **1. 纯洁的微笑**
 
 学习Spring Boot时候发现的：
 
-GitHub ：[https://github.com/ityouknow](https://github.com/ityouknow)   纯洁的微笑，里面有一些SpringBoot 、Spring Cloud 的demo，很不错。
+GitHub ：[https://github.com/ityouknow](https://github.com/ityouknow)   纯洁的微笑，里面有一些SpringBoot 、Spring Cloud 的demo，很不错。
 主页：[http://www.ityouknow.com/](http://www.ityouknow.com/)
 
-## **2. 梁飞老师**
+## **2. 梁飞老师**
 
 学习dubbo时候发现的梁飞老师以前的博客：[https://javatar.iteye.com/?page=20](https://javatar.iteye.com/?page=20)
 
-GitHub ：[https://github.com/liangfei0201](https://github.com/liangfei0201)    但是GitHub上没太多内容，也是许久没有更新。可能也是没时间更新。
+GitHub ：[https://github.com/liangfei0201](https://github.com/liangfei0201)    但是GitHub上没太多内容，也是许久没有更新。可能也是没时间更新。
 
 翻了翻，可以看看他的进步之路。
 
@@ -47,11 +47,13 @@ http://generalthink.github.io/
 # **10. 床长人工智能教程**
 [床长人工智能教程https://www.captainbed.net/blog-ziyou/](https://www.captainbed.net/blog-ziyou/)（后面章节需要收费，没多少钱）。
 
+---
+
 # 学习手册
 
 ## **1. Spring Boot 帮助文档**
 
-Spring Boot 2.1.1 的帮助文档： [https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/)
+Spring Boot 2.1.1 的帮助文档： [https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/)
 
 ## **2.阿里巴巴Java开发手册**
 
@@ -67,11 +69,8 @@ Spring Boot 2.1.1 的帮助文档： [https://docs.spring.io/spring-boot/docs/2
 
 深入理解NIO需要学习下网络编程的内容。
 
-## **4.笨神建立的在线生成jvm参数的平台**
 
-[http://xxfox.perfma.com/jvm/generate](http://xxfox.perfma.com/jvm/generate)
-
-## **5.余庆老师写的分布式文件系统FastDFS**
+## **4. 余庆老师写的分布式文件系统FastDFS**
 
 https://github.com/happyfish100
 
@@ -79,32 +78,37 @@ https://github.com/happyfish100
 
 同样是余庆老师开发的智能问答系统，只是内容目前不太完善：http://www.fastken.com/web/
 
-## **6. 翻译自并发编程网上的Java NIO教程**
+## **5. 翻译自并发编程网上的Java NIO教程**
 
 http://ifeve.com/overview/
 
-## **7. Redis 命令查询**
+## **6. Redis 命令查询**
 http://redisdoc.com/index.html
 
-## **8. Spring、MyBatis等源码分析系列文章**
+## **7. Spring、MyBatis等源码分析系列文章**
 http://www.tianxiaobo.com/
 
-## 9. [Redis源码走读](https://wenfh2020.com/2020/01/30/redis-ziplist/)
+## 8. [Redis源码走读](https://wenfh2020.com/2020/01/30/redis-ziplist/)
 博客里面更新的源码走读系列
 
-## **10. 哦吼**
+## **9. 哦吼**
 [996.ICU 网站](https://996.icu/#/zh_CN)
 [996.ICU GitHub](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
-## **11. GitHub上一个学习IDEA使用的项目**
+## **10. GitHub上一个学习IDEA使用的项目**
 https://github.com/guobinhit/intellij-idea-tutorial
 
-## **12. [美团技术团队](https://tech.meituan.com/)**
+## **11. [美团技术团队](https://tech.meituan.com/)**
 
-## **13.  [jlevy](https://github.com/jlevy)/[命令行的艺术the-art-of-command-line](https://github.com/jlevy/the-art-of-command-line)**
+## **12.  [jlevy](https://github.com/jlevy)/[命令行的艺术the-art-of-command-line](https://github.com/jlevy/the-art-of-command-line)**
 
-## 14. [淘宝数据库月报](http://mysql.taobao.org/monthly/)
+## 13. [淘宝数据库月报](http://mysql.taobao.org/monthly/)
 深入学习MySQL，就不能靠搜索引擎泛泛地搜索了，容易误导自己。看淘宝数据库月报或者自己去看源码来消除自己学习的疑虑着实可靠。
+
+## 14. Java虚拟机规范 文档下载
+[https://docs.oracle.com/javase/specs/index.html](https://docs.oracle.com/javase/specs/index.html)
+
+---
 
 # 官方文档
 
@@ -112,7 +116,7 @@ https://github.com/guobinhit/intellij-idea-tutorial
 
 https://logback.qos.ch/
 
-logback详解：https://www.cnblogs.com/warking/p/5710303.html （供参考，疑惑时候以官网为准，不明确时候以源码为准）
+logback详解：https://www.cnblogs.com/warking/p/5710303.html （供参考，疑惑时候以官网为准，不明确时候以源码为准）
 
 ## **2. MyBatis 配置详解（中文文档）**
 
@@ -130,6 +134,11 @@ https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
 https://github.com/MyCATApache
 官方网站：http://www.mycat.io/
 
+## **6. IntelliJ IDEA文档**
+[https://www.jetbrains.com/help/idea/discover-intellij-idea.html](https://www.jetbrains.com/help/idea/discover-intellij-idea.html)
+
+---
+
 # 工具类
 
 ## 1. 几个在线办公协调的网站
@@ -137,6 +146,7 @@ https://github.com/MyCATApache
 * [processOn:在线作图、实时协作，流程图思维导图之类的](https://www.processon.com/)
 * [Google在线文档（ps：免费）](https://www.google.com/intl/zh-CN/docs/about/)，什么，上不了Google？ [点击这里了解一下](https://xiyou4you.us/r/?s=14337310)
 * [Tower:安排工作任务，管理项目进度](https://tower.im/)
+* [jira：缺陷跟踪](https://www.atlassian.com/zh/software/jira)
 
 ## 2. Java性能分析工具
 * JDK自带:jps, jstack, jstat，jmap, jconsole，jvisualvm，使用可以参考《深入理解jvm虚拟机》
@@ -152,3 +162,38 @@ https://my.oschina.net/zhongl/blog/70751
 
 ## 5.  [Linux命令大全搜索工具，内容包含Linux命令手册、详解、学习、搜集。](https://git.io/linux)
 **[GitHub: jaywcjlove/linux-command](https://github.com/jaywcjlove/linux-command)**
+
+## **6. PerfMa公司（笨神的公司）建立的jvm分析的平台**
+[https://console.perfma.com/](https://console.perfma.com/)
+
+## 7. 依然是一个在线的Java线程Dump分析网站
+[https://fastthread.io/](https://fastthread.io/)
+
+## 8. GC日志在线分析
+[https://gceasy.io/](https://gceasy.io/)
+ 
+## 9. 其他常用工具
+* tcpdump：抓包
+* Snipaste：截图工具，截的图可以设置置顶，对比啥的方便
+* ScreenToGif：将屏幕内容转变成Gif
+* OBS Studio：录屏啥的
+* apache-jmeter：压测工具
+* wireshark：抓包
+
+## 10. 动画展示Java并发  
+   *[Java Concurrent Animated](http://sourceforge.net/projects/javaconcurrenta/)*，点进去链接可以下载，`java -jar javaConcurrentAnimated.jar`运行。
+
+## 11. 动画展示各种数据结构的插入查找等操作[[点击进入旧金山大学网站查看]](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
+
+![image.png](https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzU3MjYzMy00ZDE2Njg4OGE4Y2MzOWRjLnBuZw?x-oss-process=image/format,png)
+## 12. 演示各种算法的动画，有代码的执行可以参考
+[https://algorithm-visualizer.org/](https://algorithm-visualizer.org/)
+  ![image.png](https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzU3MjYzMy0wYzE4ZDBiMWY0OTE5NzAzLnBuZw?x-oss-process=image/format,png)
+
+
+***
+# 关注技术
+
+## Graal VM
+
+## freemarker 模板引擎
