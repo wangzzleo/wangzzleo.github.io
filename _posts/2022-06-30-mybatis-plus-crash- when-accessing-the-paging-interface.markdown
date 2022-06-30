@@ -27,23 +27,23 @@ background: '/img/imac_bg.png'
 
 `Mybatis-plus` 在项目里相关的依赖如下：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7171991e-5da3-48db-bd45-ef8c3a455da6/Untitled.png)
+![1.png](https://s2.loli.net/2022/06/30/HSNW5VCgqvzZscM.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c3ecf5bc-d26b-4466-9949-3f21d446ae47/Untitled.png)
+![2.png](https://s2.loli.net/2022/06/30/dPkSv8r3BnRQNiZ.png)
 
 因为项目组小伙伴需要用`mybatis-plus:3.4.1` 的新特性，所以单独引入了`implementation ('com.baomidou:mybatis-plus-core:3.4.1')` ，而另一个相关的包：`com.baomidou:mybatis-plus-extension:3.3.0` 仍使用旧3.3.0。而分页插件`PaginationInterceptor` 在`com.baomidou:mybatis-plus-extension` 包里，分页查询的方法`PaginationInterceptor#queryTotal` 里使用到了`com.baomidou:mybatis-plus-core` 的相关类：`MybatisDefaultParameterHandler` 。如下：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/78449d23-bf81-4201-95e5-0b1c99f33fc2/Untitled.png)
+![3.png](https://s2.loli.net/2022/06/30/2cD6ymxnRHeIuGj.png)
 
 这里已经出现了编译错误，根据错误提示可以看到，`MybatisDefaultParameterHandler` 类非`DefaultParameterHandler` 的子类。为什么会这样？因为`MybatisDefaultParameterHandler` 在3.4.1发生了变动，不再是`DefaultParameterHandler` 的子类。
 
 `mybatis-plus-core:3.3.0` ：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5b10914e-6c9f-4f2f-ade7-d64df9a02ab9/Untitled.png)
+![4.png](https://s2.loli.net/2022/06/30/rm1UWG69SVMaCpt.png)
 
 `mybatis-plus-core:3.4.1` ：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2e5eed11-13fd-4f88-bc2a-843054fdb7ad/Untitled.png)
+![5.png](https://s2.loli.net/2022/06/30/gasvOMATENLmRli.png)
 
 将`com.baomidou:mybatis-plus-extension` 升级到3.4.1即解决。
 
@@ -53,7 +53,7 @@ background: '/img/imac_bg.png'
 
 `-noverify`，这样启动时不会校验字节码（实际此时的字节码是有问题的）。这样启动正常，但在运行到问题字节码就会出错。如果关掉该选项，启动时候则会出现字节码校验失败，无法启动。
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1c7a46e2-dbf6-432c-a940-fb6ed587f499/Untitled.png)
+![6.png](https://s2.loli.net/2022/06/30/yqD2vYS8WzlOtdi.png)
 
 那为什么gradle打包完的代码，`java -jar xxx.jar` 执行时候，并没有`-noverify`此环境变量，为什么启动不会报错呢？
 
