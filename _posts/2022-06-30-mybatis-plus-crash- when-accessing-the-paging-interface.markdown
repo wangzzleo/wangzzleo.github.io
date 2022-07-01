@@ -47,9 +47,9 @@ background: '/img/imac_bg.png'
 
 将`com.baomidou:mybatis-plus-extension` 升级到3.4.1即解决。
 
-这个错误很容易定位，但是这个错误只在Idea会出现呢？
+这个错误很容易定位，但是这个错误为什么只在Idea会出现？
 
-这是因为，idea启动SpringBoot 时候，如果选中Enable launch optimization，则会加java启动参数：
+这是因为，使用idea启动SpringBoot，是将依赖的jar使用 -classpath 加入启动参数。因为项目依赖mybatis-plus-boot-starter:3.3.0，因此间接引入依赖com.baomidou:mybatis-plus-extension:3.3.0 。而子项目依赖mybatis-plus-generator:3.4.1，间接引入com.baomidou:mybatis-plus-extension:3.4.1。Idea会将两个版本的包都加到项目的Libraries里，启动时候两个包都会加到classpath中。而具体执行时候jvm会加载哪个jar里的类？类加载器会按照顺序来加载查找到的第一个类（此处有疑问，可能会依赖类加载器的实现。出处：java - How does JVM deal with duplicate JARs of different versions - Stack Overflow）。而因为按照文件排名的顺序，3.3.0会排在3.4.1前面，这样加载的就是3.3.0的jar里的类。这样就导致启动报错。你可以试下，自己把启动参数复制出来，把3.4.1放在前面，就不会出现错误类。另外还有个问题，为什么Idea启动时候jvm没有报错，只在访问到相关的问题字节码才会出错？这是因为Idea启动Spring Boot时，会默认选中Enable launch optimization（如下图）。如果选中Enable launch optimization，则会加java启动参数：
 
 `-noverify`，这样启动时不会校验字节码（实际此时的字节码是有问题的）。这样启动正常，但在运行到问题字节码就会出错。如果关掉该选项，启动时候则会出现字节码校验失败，无法启动。
 
