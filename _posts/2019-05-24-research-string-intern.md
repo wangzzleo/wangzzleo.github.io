@@ -12,14 +12,14 @@ background: '/img/imac_bg.png'
 ### 先看下涉及到的两本书的内容：
 
 1. 节选自《深入理解JVM ＆ G1 GC》P31+ （内容来自京东本书试读的截图，侵删）
->![31](https://upload-images.jianshu.io/upload_images/13572633-dd2a5004391a9136.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![32](https://upload-images.jianshu.io/upload_images/13572633-efa374a6bcc666fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![33](https://upload-images.jianshu.io/upload_images/13572633-786a712213831fc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![34](https://upload-images.jianshu.io/upload_images/13572633-ccc019b08b56de61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+>![31](https://s2.loli.net/2022/07/08/4N9pyDZdMVFY2Ue.png)
+![32](https://s2.loli.net/2022/07/08/myMjWgtKldA1Tan.png)
+![33](https://s2.loli.net/2022/07/08/XT5FYGJuhvNyncr.png)
+![34](https://s2.loli.net/2022/07/08/qWkJbtIVQyM4LBl.png)
 
 
 2. 节选自《深入理解Java虚拟机 JVM高级特性与最佳实践 第2版》P57
->![P57](https://upload-images.jianshu.io/upload_images/13572633-503fa56f177d8f40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+>![P57](https://s2.loli.net/2022/07/08/Dr7oe4z8T5By1gQ.png)
 
 
 3. `intern`函数如下：
@@ -251,7 +251,7 @@ public static void main(java.lang.String[]);
 
 2. 再看《深入理解Java虚拟机 JVM高级特性与最佳实践 第2版》
 
->![04d1debbf71cddd1a0757f39e396055.png](https://upload-images.jianshu.io/upload_images/13572633-82b85a37209f89b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+>![image.png](https://s2.loli.net/2022/07/08/F2CzymeDkfVBvuH.png)
 
 这段代码为什么·`str1.intern()==str1` 在JDK1.6是false，JDK1.7是true，上文已经做了回答。而关于第二点`java`是什么时候加载的，依旧参照R大回答。
 
