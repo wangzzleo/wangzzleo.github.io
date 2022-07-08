@@ -61,7 +61,7 @@ background: '/img/imac_bg.png'
 间接引入依赖`com.baomidou:mybatis-plus-extension:3.3.0` 。而子项目依赖`mybatis-plus-generator:3.4.1`，
 间接引入`com.baomidou:mybatis-plus-extension:3.4.1`。Idea会将两个版本的包都加到项目的Libraries里，启动时候两个包都会加到
 `classpath`中。而具体执行时候jvm会加载哪个jar里的类？类加载器会按照顺序来加载查找到的第一个类（此处有疑问，可能会依赖类加载器的实现。
-出处：![java - How does JVM deal with duplicate JARs of different versions - Stack Overflow）](https://stackoverflow.com/questions/1669305/how-does-jvm-deal-with-duplicate-jars-of-different-versions)。
+出处：[java - How does JVM deal with duplicate JARs of different versions - Stack Overflow）](https://stackoverflow.com/questions/1669305/how-does-jvm-deal-with-duplicate-jars-of-different-versions) 。
 而因为按照文件排名的顺序，3.3.0会排在3.4.1前面，这样加载的就是3.3.0的jar里的类。这样就导致启动报错。你可以试下，自己把启动参数复制出来，
 把3.4.1放在前面，就不会出现错误类。另外还有个问题，为什么Idea启动时候jvm没有报错，只在访问到相关的问题字节码才会出错？这是因为Idea启动
 Spring Boot时，会默认选中Enable launch optimization（如下图）。如果选中Enable launch optimization，则会加java启动参数：
