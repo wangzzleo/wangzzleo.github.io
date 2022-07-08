@@ -1,8 +1,8 @@
 title:              八宝粥的博客
-SEOTitle: 八宝粥的博客 | wangzzleo
+SEOTitle:           八宝粥的博客 | wangzzleo
 email:              wangzzleo@gmail.com
 description:        你今天学习了吗？今天不学习，明天变垃圾
-baseurl: ""
+baseurl:            ""
 author:             wangzz
 url:                "https://www.wangzzleo.top"
 
@@ -30,7 +30,6 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-paginate
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
