@@ -19,11 +19,19 @@ google_ads:         ca-pub-6504830816842759
 
 # Build settings
 highlighter:        rouge
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 markdown:           kramdown
 kramdown:
   input: GFM
   math_engine: mathjax
   syntax_highlighter: rouge
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
 paginate:           10
 paginate_path:      "/posts/page:num/"
 plugins:
