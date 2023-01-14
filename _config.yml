@@ -1,7 +1,7 @@
 title:              八宝粥的博客
 SEOTitle:           八宝粥的博客 | wangzzleo
 email:              wangzzleo@gmail.com
-description:        你今天学习了吗？今天不学习，明天变垃圾
+description:        说什么都不合适
 baseurl:            ""
 author:             wangzz
 url:                "https://www.wangzzleo.top"
@@ -19,13 +19,16 @@ google_ads:         ca-pub-6504830816842759
 
 # Build settings
 highlighter:        rouge
-markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+markdown_ext:       "markdown,mkdown,mkdn,mkd,md"
 markdown:           kramdown
 kramdown:
   input: GFM
   math_engine: mathjax
-  syntax_highlighter: rouge
-  hard_wrap: false
+  # syntax_highlighter: coderay
+  # syntax_highlighter_opts:
+  #   line_numbers: table
+  #   bold_every: 5
+  # hard_wrap: false
   auto_ids: true
   footnote_nr: 1
   entity_output: as_char

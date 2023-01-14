@@ -2,7 +2,7 @@
 body {
   font-size: 20px;
   color: $gray-900;
-  background-image: url('/img/global_bg.jpg');
+  // background-image: url('/img/global_bg.jpg');
   background-repeat: repeat;
   @include serif-font;
 }

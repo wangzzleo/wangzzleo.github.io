@@ -5,16 +5,15 @@ subtitle: "极客时间课程"
 date:   2019-02-13
 background: '/img/imac_bg.png'
 ---
-![优惠](https://upload-images.jianshu.io/upload_images/13572633-440496cbd534cb5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#Spring家族
+# Spring家族
 - Spring Framework
 
 - Spring Boot
   快速构建基于Spring的应用程序
 - Spring Cloud
   简化分布式系统的开发
-#数据源
+# 数据源
 - HikariCP
   1. 特点
   高性能数据源，速度非常快
@@ -24,8 +23,8 @@ background: '/img/imac_bg.png'
   3. https://github.com/brettwooldridge/HikariCP
 - Alibaba Druid
   特点：  详细的监控，SQL防注入，内置加密配置，众多扩展点
-#Spring 事务
-##Spring 的事务抽象
+# Spring 事务
+## Spring 的事务抽象
 1. 一致的事务抽象
 - JDBC/Hibernate/MyBatis
 - DataSource/JTA
