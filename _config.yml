@@ -1,10 +1,10 @@
 title:              八宝粥的博客
-SEOTitle: 八宝粥的博客 | wangzzleo
-email:              wangzzleo@126.com
-description:        变得强大
-baseurl: ""
+SEOTitle:           八宝粥的博客 | wangzzleo
+email:              wangzzleo@gmail.com
+description:        你今天学习了吗？今天不学习，明天变垃圾
+baseurl:            ""
 author:             wangzz
-url:                "https://www,wangzzleo.online"
+url:                "https://www.wangzzleo.top"
 
 # Social Profiles
 twitter_username:   wangzzleo
@@ -13,7 +13,7 @@ facebook_username:  wangzzleo
 jianshu_username:   7eac69299be6
 
 # Google Analytics
-google_analytics:   'UA-163310727-2'            # Format: UA-xxxxxx-xx
+google_analytics:   'G-K202D30ENX'            # Format: UA-xxxxxx-xx
 google_ads:         ca-pub-6504830816842759
 
 
@@ -38,7 +38,6 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-paginate
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

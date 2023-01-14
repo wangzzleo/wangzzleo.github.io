@@ -60,7 +60,7 @@ Spring的WebApplicationInitializer SPI只由一个方法组成：WebApplicationI
 >将在Servlet 3.0+环境中实现的接口，以便以编程方式配置ServletContext--与传统的基于web.xml的方法相反（或可能与之结合）。
 这个SPI的实现将被SpringServletContainerInitializer自动检测到，它本身是由任何Servlet 3.0容器自动引导的。关于这个引导机制的细节，请参见其Javadoc。
 
-![image.png](https://upload-images.jianshu.io/upload_images/13572633-286b36e5f0f94885.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](/img/spring_application_class.png)
 
 根据上面的这几个类/接口的Java doc，这几个类在启动时候执行过程如下（首先你需要理解Java SPI）：
 容器初始化过程中，当加载`Spring-web`这个jar包时，在jar文件的`META-INF`文件夹下名为`javax.servlet.ServletContainerInitializer`的文件中，指定了`ServletContainerInitializer`的实现类的全限定名`org.springframework.web.SpringServletContainerInitializer`，在该类`@HandlesTypes`注解指定了一个接口`WebApplicationInitializer`。在容器启动时候，`onStartup`方法会被运行，`WebApplicationInitializer`接口的实现类会当作参数传入`onStartup`方法。`SpringServletContainerInitializer`的`onStartup`方法如下：
@@ -99,7 +99,7 @@ public void onStartup(Set<Class<?>> webAppInitializerClasses, ServletContext ser
 ### 那再来看看咱们平时在`web.xml`中经常配置的`ContextLoaderListener`类以及与它相关的这几个类：
 
 这几个类的UML图如下：
-![image.png](https://upload-images.jianshu.io/upload_images/13572633-faff3c29d13c8762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](/img/spring_context_uml.png)
 
 
 1. ServletContextListener
