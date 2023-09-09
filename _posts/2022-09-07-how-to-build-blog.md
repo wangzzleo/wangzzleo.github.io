@@ -136,15 +136,7 @@ https://github.com/collections/github-pages-examples
 5. 为你的博客增加文章的自定义索引
     1. Jekyll使用模板引擎Liquid，所以可以使用Liquid标签创建索引，在首页增加如下代码：
 
-        ```jsx
-        <ul>
-          {% for post in site.posts %}
-        		<li>
-        		<a href="{{ post.url }}">{{ post.title }}</a>
-        		</li>
-        	{% endfor %}
-        </ul>
-        ```
+       ![code.png](https://s2.loli.net/2023/09/09/ExzFsAWVyldMP48.png)
 
 
 最终效果如下：
