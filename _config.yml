@@ -29,7 +29,6 @@ social:
   email: wangzzleo@gmail.com
   links:
     - https://github.com/wangzzleo
-    - https://twitter.com/wangzzleo
 
 google_analytics:
   id: 'G-K202D30ENX'
@@ -42,6 +41,7 @@ google_analytics:
 
 # Avatar image URL or local path
 # avatar: '/assets/img/avatar.png'
+avatar: 'https://github.com/wangzzleo.png'
 
 # Boolean value for TOC in post.
 toc: true
