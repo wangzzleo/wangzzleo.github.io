@@ -1,54 +1,93 @@
-title:              八宝粥的博客
-SEOTitle:           八宝粥的博客 | wangzzleo
-email:              wangzzleo@gmail.com
-description:        说什么都不合适
-baseurl:            ""
-author:             wangzz
-url:                "https://www.wangzzleo.top"
+# The Site Configuration
+# Documentation: https://chirpy.cotes.page/posts/getting-started/
 
-# Social Profiles
-twitter_username:   wangzzleo
-github_username:    wangzzleo
-facebook_username:  wangzzleo
-jianshu_username:   7eac69299be6
+# The language of the webpage › default to 'en'
+lang: zh-CN
 
-# Google Analytics
-google_analytics:   'G-K202D30ENX'            # Format: UA-xxxxxx-xx
-google_ads:         ca-pub-6504830816842759
+# Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
+timezone: Asia/Shanghai
 
+# jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
+title: 八宝粥的博客
+tagline: 说什么都不合适
+description: >-
+  八宝粥的技术博客，记录 Java、后端架构、分布式系统、Linux 及个人成长思考。
 
-# Build settings
-highlighter:        rouge
-markdown_ext:       "markdown,mkdown,mkdn,mkd,md"
-markdown:           kramdown
-kramdown:
-  input: GFM
-  math_engine: mathjax
-  # syntax_highlighter: coderay
-  # syntax_highlighter_opts:
-  #   line_numbers: table
-  #   bold_every: 5
-  # hard_wrap: false
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  enable_coderay: false
-paginate:           10
-paginate_path:      "/posts/page:num/"
+# Fill in the protocol & hostname for your site. e.g. 'https://username.github.io'
+url: 'https://www.wangzzleo.top'
+
+author: wangzz
+
+github:
+  username: wangzzleo
+
+twitter:
+  username: wangzzleo
+
+social:
+  name: wangzz
+  email: wangzzleo@gmail.com
+  links:
+    - https://github.com/wangzzleo
+    - https://twitter.com/wangzzleo
+
+google_analytics:
+  id: 'G-K202D30ENX'
+
+# Prefer color scheme. Values: 'light', 'dark'
+# theme_mode:
+
+# The CDN endpoint for images
+# img_cdn:
+
+# Avatar image URL or local path
+# avatar: '/assets/img/avatar.png'
+
+# Boolean value for TOC in post.
+toc: true
+
+# Jekyll settings
+theme: jekyll-theme-chirpy
+
+paginate: 10
+
 plugins:
-  - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+  - jekyll-seo-tag
+  - jekyll-archives
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+# Markdown parser
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+exclude:
+  - vendor
+  - .bundle
+  - _old_backup
+  - Gemfile.lock
+  - node_modules
+  - README.md
+  - LICENSE
+  - docker-compose.yml

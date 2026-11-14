@@ -4,6 +4,12 @@ title:  "谈引用"
 subtitle: "引用类型研究的笔记"
 date:   2021-01-04
 background: '/img/imac_bg.png'
+tags:
+  - Java
+  - JVM
+categories:
+  - 后端
+  - JVM
 ---
 一直以来，引用好像是个很模糊的概念，从学Java第一天，我们就可以熟练重复这句话：“Java包括基本类型和引用类型”。但是到底什么是引用呢？
 

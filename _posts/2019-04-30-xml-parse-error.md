@@ -4,6 +4,11 @@ title:  "一个XML解析错误的排查"
 subtitle: "使用JAXB解析xml"
 date:   2019-04-30
 background: '/img/imac_bg.png'
+tags:
+  - 排错记录
+categories:
+  - 踩坑
+  - 排错记录
 ---
 项目里面需要用到XML解析，我权衡之后使用了JAXB，因为：  
 1. 对接系统返回的XML比较复杂，如果使用时候使用DOM4J之类的，代码与XML格式强耦合，所以使用JAXB，直接使用注解映射XML和JavaBean；

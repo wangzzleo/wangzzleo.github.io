@@ -4,6 +4,12 @@ title:  "Shell & Shell scripts"
 subtitle: "《鸟哥的Linux私房菜》的读书笔记"
 date:   2019-12-16
 background: '/img/imac_bg.png'
+tags:
+  - Linux
+  - Shell
+categories:
+  - 运维
+  - Shell
 ---
 本文是《鸟哥的Linux私房菜》的读书笔记，学习内容来自：[《鸟哥的Linux私房菜》](http://cn.linux.vbird.org/linux_basic)，版权归[鸟哥](http://cn.linux.vbird.org/)。
 # 关于shell

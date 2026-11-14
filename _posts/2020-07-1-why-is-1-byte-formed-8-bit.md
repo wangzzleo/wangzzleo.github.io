@@ -4,6 +4,11 @@ title:  "为什么一个字节是8位"
 subtitle: ""
 date:   2020-07-11
 background: '/img/imac_bg.png'
+tags:
+  - 计算机基础
+categories:
+  - 基础
+  - 计算机原理
 ---
 
 有没有思考过为什么一个byte是8位呢？一起来看下Quora上这个回答。

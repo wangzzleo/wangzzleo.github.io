@@ -4,6 +4,12 @@ title:  "MyBatis 源码简单分析"
 subtitle: "常被问到"
 date:   2019-04-11
 background: '/img/imac_bg.png'
+tags:
+  - MyBatis
+  - Java
+categories:
+  - 后端
+  - MyBatis
 ---
 `MyBatis`的使用可以参考：
 [官方文档中文版](http://www.mybatis.org/mybatis-3/zh/index.html)

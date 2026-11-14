@@ -4,6 +4,12 @@ title:  "Maven笔记"
 subtitle: "转载记录自多篇文章"
 date:   2019-04-10
 background: '/img/imac_bg.png'
+tags:
+  - 开发工具
+  - Maven
+categories:
+  - 工具
+  - Maven
 ---
 使用Maven有一年多，但是很多概念一直很含糊，今天稍作总结。 [转载自多篇文章]
 1. [Maven是什么？](https://blog.csdn.net/liusong0605/article/details/25654811)  

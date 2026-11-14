@@ -4,6 +4,12 @@ title:  "Java-ThreadLocal简析"
 subtitle: "ThreadLocal代码分析"
 date:   2021-01-04
 background: '/img/imac_bg.png'
+tags:
+  - Java
+  - 并发编程
+categories:
+  - 后端
+  - Java并发
 ---
 
 翻看JDK8的新特性，看到这样的一条。说ThreadLocal在JDK8有新的更改，这里主要都是和lambda表达相关的一些更改。那就来对比看下修改了什么。  

@@ -4,6 +4,11 @@ title:  "问题排查"
 subtitle: "总结常见问题的排查思路"
 date:   2021-01-30
 background: '/img/imac_bg.png'
+tags:
+  - 随想
+categories:
+  - 生活
+  - 思考
 ---
 
 # 问题分类

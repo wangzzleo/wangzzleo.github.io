@@ -4,6 +4,12 @@ title:  "ThreadPoolExecutor 介绍"
 subtitle: ""
 date:   2019-03-22
 background: '/img/imac_bg.png'
+tags:
+  - Java
+  - 并发编程
+categories:
+  - 后端
+  - Java并发
 ---
 
 ## 使用`Executors`创建线程池：

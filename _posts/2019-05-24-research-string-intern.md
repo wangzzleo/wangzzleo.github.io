@@ -4,6 +4,12 @@ title:  "从intern函数产生的疑问"
 subtitle: ""
 date:   2019-05-24
 background: '/img/imac_bg.png'
+tags:
+  - Java
+  - JVM
+categories:
+  - 后端
+  - JVM
 ---
 我之前说过：
 > 在阅读周明耀老师的《深入理解JVM ＆ G1 GC》该书时，对本书p31~33关于String的部分内容产生疑问，遂通过google等搜索引擎以及Stack Overflow和知乎(R大)[[https://www.zhihu.com/people/rednaxelafx/answers?order_by=vote_num](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.zhihu.com%2Fpeople%2Frednaxelafx%2Fanswers%3Forder_by%3Dvote_num)]的解答研究了一番，最终理解还是有欠缺。

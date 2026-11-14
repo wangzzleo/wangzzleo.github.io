@@ -4,6 +4,12 @@ title:  "玩转Spring全家桶 -- 学习笔记"
 subtitle: "极客时间课程"
 date:   2019-02-13
 background: '/img/imac_bg.png'
+tags:
+  - Spring
+  - Java
+categories:
+  - 后端
+  - Spring
 ---
 
 # Spring家族

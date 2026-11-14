@@ -4,6 +4,12 @@ title:  "ruby language"
 subtitle: "ruby language"
 date:   2022-07-06
 background: '/img/imac_bg.png'
+tags:
+  - 编程语言
+  - Ruby
+categories:
+  - 语言
+  - Ruby
 ---
 
 

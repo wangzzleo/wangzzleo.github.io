@@ -1,10 +1,13 @@
 _site
+_old_backup/
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
 *.gem
 Gemfile.lock
 node_modules
+.bundle/
+vendor/
 
 #mac
 .DS_Store

@@ -4,6 +4,11 @@ title:  "一点随想"
 subtitle: "乱糟糟的记录"
 date:   2023-03-08
 background: '/img/imac_bg.png'
+tags:
+  - 生活随笔
+categories:
+  - 生活
+  - 随想
 ---
 
 # 一点随想

@@ -4,6 +4,11 @@ title:  "我的学习计划"
 subtitle: "漫长啊"
 date:   2019-09-12
 background: '/img/tips_bg.jpg'
+tags:
+  - 学习笔记
+categories:
+  - 学习
+  - 成长
 ---
 # 我的学习内容
 

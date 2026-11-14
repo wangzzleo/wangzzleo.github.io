@@ -4,6 +4,11 @@ title:  "日常更新学习资料"
 subtitle: "日常更新一些博客、学习资料、开发工具等"
 date:   2020-01-28
 background: '/img/bnd-bg.jpg'
+tags:
+  - 学习笔记
+categories:
+  - 学习
+  - 日常记录
 ---
 
 # 博客

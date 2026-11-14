@@ -4,6 +4,12 @@ title:  "Zookeeper笔记"
 subtitle: ""
 date:   2020-04-22
 background: '/img/imac_bg.png'
+tags:
+  - 分布式
+  - ZooKeeper
+categories:
+  - 分布式
+  - ZooKeeper
 ---
 # Zookeeper是什么？
 看[官方描述](https://zookeeper.apache.org/)：

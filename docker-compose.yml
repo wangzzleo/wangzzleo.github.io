@@ -1,0 +1,20 @@
+services:
+  jekyll:
+    image: ruby:3.3-slim
+    container_name: jekyll-chirpy
+    working_dir: /srv/jekyll
+    volumes:
+      - .:/srv/jekyll
+      - bundler-cache:/usr/local/bundle
+    ports:
+      - "4000:4000"
+    environment:
+      - JEKYLL_ENV=development
+    command: >
+      bash -c "apt-get update &&
+               apt-get install -y --no-install-recommends git build-essential &&
+               bundle install &&
+               bundle exec jekyll serve --watch --force_polling --host 0.0.0.0 --port 4000"
+
+volumes:
+  bundler-cache:

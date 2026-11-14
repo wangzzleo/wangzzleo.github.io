@@ -4,6 +4,11 @@ title:  "field、variable和property有什么区别"
 subtitle: "简单学"
 date:   2021-05-26
 background: '/img/imac_bg.png'
+tags:
+  - Java
+categories:
+  - 后端
+  - Java
 ---
 
 这看起来是个无聊的文字游戏，但其实Java术语表里是有关于每一项的说明的。

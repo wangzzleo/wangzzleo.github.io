@@ -1,20 +1,40 @@
-![](https://img.shields.io/github/license/wangzzleo/wangzzleo.github.io?style=flat-square)  
-***
-本博客使用[BlackrockDigital](https://github.com/BlackrockDigital)的`startbootstrap-clean-blog-jekyll`模板，[点击查看详细教程](https://github.com/startbootstrap/startbootstrap-clean-blog-jekyll)。
-查看该模板[点击这里](https://github.com/startbootstrap/startbootstrap-clean-blog-jekyll)。
-***
-以下来自我的补充：  
-1. 了解GitHub Pages，[戳这里](https://pages.github.com/)  
-2. 了解Jekyll，[戳这里](http://jekyllcn.com/)  
-3. 如果`bundle install`很卡，或者很慢，这个时候可以中断掉，将Gemfile文件的Ruby源修改为国内镜像：```
-gem sources --remove https://rubygems.org/
-gem source --add 'https://gems.ruby-china.com'``` 。之后进入目录中手动安装依赖的ruby包：`bundler show`，按照提示安装。  
-4. 如果你是Windows用户，则需要[查看这里](http://jekyllcn.com/docs/windows/#installation)。经过我的实践，我对此指南补充以下：
-	1. 最新文档可以查看[Jekyll国外官网](https://rubyinstaller.org/downloads/)，国内翻译官网因为翻译的延迟性等原因，可能会有误导，需要对照查看。
-	2. 在国外官网可以得知，可以通过下载 `Ruby+Devkit`安装Ruby和Ruby development kit，[地址在此](https://rubyinstaller.org/downloads/)，这里需要注意的是，后续需要安装的`Nokogiri`这个软件包目前只支持`>ruby 2.2`、`<ruby 2.7.dev`，需要下载安装`2.7`之前的版本。
-	3. `Nokogiri`这个包我也是通过`gem install Nokogiri`直接安装的，没有下载别的，各位可以试一试。
+# 八宝粥的个人博客 (Jekyll Theme Chirpy)
 
+本项目基于 [Jekyll Theme Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) 构建，托管于 GitHub Pages，绑定独立域名 [wangzzleo.top](https://www.wangzzleo.top)。
 
-## Copyright and License
+## 🌟 主题特性
+- **右侧吸顶大纲（Sticky TOC）**：长文页面右侧提供实时高亮定位目录，滚动随行，无需翻回顶部。
+- **现代化多栏布局**：左侧固定导航栏（归档、分类、标签、关于），中间高密度文章流，右侧标签云与目录。
+- **暗黑模式（Dark Mode）**：支持浅色/深色主题一键无缝切换。
+- **即时搜索（Search）**：毫秒级全站标题与全文模糊搜索。
+- **代码高亮与复制**：语法高亮并自带一键复制代码块功能。
+- **数学公式支持**：支持 KaTeX / MathJax 渲染。
 
-Copyright 2013-2019 Blackrock Digital LLC. Code released under the [MIT](https://github.com/BlackrockDigital/startbootstrap-clean-blog-jekyll/blob/gh-pages/LICENSE) license.
+## 🚀 本地运行
+
+### 推荐：使用 Docker 一键启动（免配置本地 Ruby 环境）
+```bash
+docker compose up
+```
+启动后访问 `http://localhost:4000` 即可实时预览（支持热重载）。
+
+### 本地原生运行（需要 Ruby >= 3.0）
+```bash
+bundle install
+bundle exec jekyll serve
+```
+
+## ✍️ 写新文章指南
+在 `_posts/` 目录下创建 `YYYY-MM-DD-title.md` 文件，头部设置：
+```yaml
+---
+title: "文章标题"
+date: 2026-11-14 10:00:00 +0800
+categories: [主分类, 子分类]
+tags: [标签1, 标签2]
+toc: true
+---
+```
+
+## 🚢 自动部署
+通过 GitHub Actions 自动化流水线（`.github/workflows/pages-deploy.yml`），只需将代码 push 到 `master` 分支，云端即可自动完成构建与发布。

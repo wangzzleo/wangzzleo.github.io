@@ -4,6 +4,12 @@ title:  "疑似MySQL Java驱动的bug"
 subtitle: ""
 date:   2020-09-07
 background: '/img/imac_bg.png'
+tags:
+  - MySQL
+  - 排错记录
+categories:
+  - 数据库
+  - MySQL
 ---
 
 

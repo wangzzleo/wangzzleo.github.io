@@ -4,6 +4,11 @@ title:  "一点感慨"
 subtitle: "对最近状态的总结"
 date:   2020-11-27
 background: '/img/imac_bg.png'
+tags:
+  - 生活随笔
+categories:
+  - 生活
+  - 随想
 ---
 &emsp;&emsp;今天上午被58同城拒了。
 

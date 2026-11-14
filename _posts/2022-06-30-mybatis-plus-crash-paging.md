@@ -4,6 +4,12 @@ title:  "Mybatis-Plus进行分页查询时，进程直接退出"
 subtitle: ""
 date:   2022-06-30
 background: '/img/imac_bg.png'
+tags:
+  - MyBatis
+  - 排错记录
+categories:
+  - 后端
+  - MyBatis
 ---
 
 # 现象描述

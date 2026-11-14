@@ -4,6 +4,11 @@ title:  "构建一个你自己的博客"
 subtitle: "使用Github创建你的博客"
 date:   2022-09-07
 background: '/img/imac_bg.png'
+tags:
+  - 建站心得
+categories:
+  - 技术
+  - 建站
 ---
 
 # 使用Github创建你的博客

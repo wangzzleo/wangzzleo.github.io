@@ -4,6 +4,12 @@ title:  "MySQL基本运维"
 subtitle: "MySQL的安装等"
 date:   2019-01-28
 background: '/img/imac_bg.png'
+tags:
+  - MySQL
+  - 数据库
+categories:
+  - 数据库
+  - MySQL
 ---
 # MySQL安装
 **1. 查看linux版本：file /sbin/init 或者 file /bin/ls**
