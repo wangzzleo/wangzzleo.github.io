@@ -60,7 +60,7 @@ JDK8的`ThreadLocal`地址点[这里](https://github.com/frohoff/jdk8u-jdk/blob/
 
 ---
 
-# ThreadLocal的使用
+## ThreadLocal的使用
 
 直接使用官方实例：
 
@@ -85,7 +85,7 @@ JDK8的`ThreadLocal`地址点[这里](https://github.com/frohoff/jdk8u-jdk/blob/
 查看`ThreadLocal`，只有以下几个方法供使用：
 [![sSG5md.png](https://s3.ax1x.com/2021/01/02/sSG5md.png)](https://imgchr.com/i/sSG5md)
 
-# 源码部分
+## 源码部分
 
 
 

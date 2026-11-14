@@ -11,14 +11,14 @@ categories:
   - 分布式
   - ZooKeeper
 ---
-# Zookeeper是什么？
+## Zookeeper是什么？
 看[官方描述](https://zookeeper.apache.org/)：
 >ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. All of these kinds of services are used in some form or another by distributed applications. Each time they are implemented there is a lot of work that goes into fixing the bugs and race conditions that are inevitable. Because of the difficulty of implementing these kinds of services, applications initially usually skimp on them, which make them brittle in the presence of change and difficult to manage. Even when done correctly, different implementations of these services lead to management complexity when the applications are deployed.
 >翻译：ZooKeeper是用于维护配置信息，命名，提供分布式同步以及提供组服务的集中式服务。 所有这些类型的服务都以某种形式被分布式应用程序使用。 每次实施它们时，都会进行很多工作来修复不可避免的错误和竞争条件。 由于难以实现这类服务，因此应用程序最初通常会跳过它们，这会使它们在发生更改时变得脆弱并且难以管理。 即使部署正确，这些服务的不同实现也会导致管理复杂。
 
 是一种分布式协调服务。分布式协调服务可以在分布式系统中共享配置，协调锁资源，提供命名服务。
 
-#Zookeeper的数据模型
+## Zookeeper的数据模型
 >ZooKeeper has a hierarchal name space, much like a distributed file system. The only difference is that each node in the namespace can have data associated with it as well as children. It is like having a file system that allows a file to also be a directory. Paths to nodes are always expressed as canonical, absolute, slash-separated paths; there are no relative reference. Any unicode character can be used in a path subject to the following constraints:  
 >>The null character (\u0000) cannot be part of a path name. (This causes problems with the C binding.)
 The following characters can't be used because they don't display well, or render in confusing ways: \u0001 - \u001F and \u007F
@@ -67,7 +67,7 @@ Znode包含以下结构：
 当前节点的子节点引用，类似于二叉树的左孩子右孩子。
 另：Zookeeper是为读多写少的场景所设计。Znode并不是用来存储大规模业务数据，而是用于存储少量的状态和配置信息，每个节点的数据最大不能超过1MB。
 
-# Zookeeper集群
+## Zookeeper集群
 Zookeeper Service集群是一主多从结构。在更新数据时，首先更新到主节点（这里的节点是指服务器，不是Znode），再同步到从节点。在读取数据时，直接读取任意从节点。为了保证主从节点的数据一致性，Zookeeper采用了ZAB协议，这种协议非常类似于一致性算法Paxos和Raft。
 
 关于ZAB:
@@ -79,7 +79,7 @@ Zookeeper Service集群是一主多从结构。在更新数据时，首先更新
   节点本地的最新事务编号，包含epoch和计数两部分。
 3. 崩溃恢复过程（待更新）
 
-# 应用
+## 应用
 1. 分布式锁
 2. 服务注册和发现
 3. 共享配置和状态信息

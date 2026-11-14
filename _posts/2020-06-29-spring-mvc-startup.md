@@ -12,7 +12,7 @@ categories:
   - Spring
 ---
 
-# 概念
+## 概念
 
 要理解IoC、AOP等你只需要理解JavaSE就可以，知道IoC等解决的是什么问题。但是如果要理解SpringWeb、Spring Web-MVC，你还需要了解JavaEE，理解Servlet。
 需要理解以下概念：
@@ -41,9 +41,9 @@ Servlet容器是一个程序，可以接收来自网页的请求并将这些请�
     1. `Web Server`仅包含Web或Servlet容器。 它可以用于servlet，jsp，struts，jsf等。不能用于EJB。这是一台可以存储Web内容的计算机。 通常，Web服务器可用于托管网站，但也使用其他一些Web服务器，例如FTP，电子邮件，存储，游戏等。Web服务器包括：Apache Tomcat和Resin。
     2. `Application Server`包含Web和EJB容器。 它可以用于servlet，jsp，struts，jsf，ejb等。它是基于组件的产品，位于以服务器为中心的体系结构的中间层。应用服务器包括：JBoss：来自JBoss社区的开源服务器；Glassfish：由Sun Microsystem提供，现在被甲骨文收购；Weblogic：由Oracle提供，它更安全；Websphere：由IBM提供。
 
-# 一些和启动相关的接口和类
+## 一些和启动相关的接口和类
 
-### 看源码过程中首先发现这几个接口/类，似乎与启动相关。如下：
+#### 看源码过程中首先发现这几个接口/类，似乎与启动相关。如下：
 
 1. ServletContainerInitializer
 >该接口允许一个库/运行时被通知Web应用程序的启动阶段，并执行任何所需的servlet、过滤器和监听器的程序化注册以响应它。
@@ -102,7 +102,7 @@ public void onStartup(Set<Class<?>> webAppInitializerClasses, ServletContext ser
 `WebApplicationInitializer`接口的非接口和抽象类的子类，它们的`onStartup`方法就会被执行。
 似乎Spring容器启动时依靠的就是这几个，但世实际上，看到Spring-web中`WebApplicationInitializer`接口的几个实现类都是抽象类，而且项目中也没写过这个接口的实现类，看来一般都不用这个方式。
 
-### 那再来看看咱们平时在`web.xml`中经常配置的`ContextLoaderListener`类以及与它相关的这几个类：
+#### 那再来看看咱们平时在`web.xml`中经常配置的`ContextLoaderListener`类以及与它相关的这几个类：
 
 这几个类的UML图如下：
 ![image.png](/img/spring_context_uml.png)
@@ -318,4 +318,4 @@ protected void configureAndRefreshWebApplicationContext(ConfigurableWebApplicati
 ```
 
 
-### 但是有时候，我们甚至没有做`ContextLoaderListener`相关配置，好像也可以用，那咱们再看下这个机制。
+#### 但是有时候，我们甚至没有做`ContextLoaderListener`相关配置，好像也可以用，那咱们再看下这个机制。

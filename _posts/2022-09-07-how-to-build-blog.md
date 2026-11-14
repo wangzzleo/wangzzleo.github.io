@@ -11,9 +11,9 @@ categories:
   - 建站
 ---
 
-# 使用Github创建你的博客
+## 使用Github创建你的博客
 
-# 为什么你需要一个博客？
+## 为什么你需要一个博客？
 
 - 总结你的所思所想
 
@@ -31,7 +31,7 @@ categories:
 
     ![Untitled.png](https://s2.loli.net/2023/09/09/9prg6fnbQGyENJM.png)
 
-# 建设博客，有哪些方式？
+## 建设博客，有哪些方式？
 
 1. 国内的博客网站（审查）
 
@@ -53,9 +53,9 @@ categories:
    免费：Github pages
 
 
-# GitHub pages
+## GitHub pages
 
-### 什么是**Github pages**
+#### 什么是**Github pages**
 
 - **GitHub Pages** 是一种静态站点托管服务，它直接从 GitHub 上的仓库获取 HTML、CSS 和 JavaScript 文件，可选择通过构建过程运行文件，然后发布网站。
 
@@ -67,12 +67,12 @@ https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-
 
 https://github.com/collections/github-pages-examples
 
-### 使用Github pages有什么好处
+#### 使用Github pages有什么好处
 
 1. 免费
 2. 方便
 
-### 使用Github pages创建一个博客
+#### 使用Github pages创建一个博客
 
 1. 注册一个Github账号，比如：oneuss
 2. 创建一个仓库，名为：{username}.github.io，例如：oneuss.github.io
@@ -83,7 +83,7 @@ https://github.com/collections/github-pages-examples
 
 5. 然后等待片刻，便可以从：[oneuss.github.io](https://oneuss.github.io) 访问你的博客
 
-### 修改博客名称
+#### 修改博客名称
 
 1. 添加文件：`_config.yml`
 2. 文件中添加：
@@ -98,7 +98,7 @@ https://github.com/collections/github-pages-examples
 
    ![Untitled.png](https://s2.loli.net/2023/09/09/NZyjLcKdWo7VzYB.png)
 
-### 修改博客主题
+#### 修改博客主题
 
 1. 修改`_config.yml`，添加属性：`theme`
 
@@ -156,21 +156,21 @@ https://github.com/collections/github-pages-examples
 
 [GitHub Pages 快速入门 - GitHub Docs](https://docs.github.com/cn/pages/quickstart)
 
-### 更简单的方式
+#### 更简单的方式
 
 1. fork你想要主题的项目
 2. 修改项目名称，设置域名等
 3. 删掉原来的文章，直接在_post里加你自己的文章
 
-## 限制
+### 限制
 
 1. 仓库大小不超过1GB
 2. 带宽限制为每月 100 GB
 3. 每小时 10 次构建
 
-# 使用Jekyll
+## 使用Jekyll
 
-### 什么是Jekyll
+#### 什么是Jekyll
    
 ![Untitled.png](https://s2.loli.net/2023/09/09/TU4AlkiXfFHwsrP.png)
 
@@ -180,7 +180,7 @@ Jekyll 是一个静态站点生成器，内置对 GitHub Pages 的支持和简�
 
 [Jekyll * 简单静态博客网站生成器](http://jekyllcn.com/)
 
-# 推广你的博客
+## 推广你的博客
 
 1. 购买域名，并创建`CNAME`记录，指向指向`oneuss.github.io`
 
@@ -191,18 +191,18 @@ Jekyll 是一个静态站点生成器，内置对 GitHub Pages 的支持和简�
 4. 友链，比如赵琦的博客：https://www.ingernotes.cn/
 5. 为你的博客增加百度统计、谷歌统计，查看访问数据
 
-# 收益
+## 收益
 
 1. 直接收益，比如广告：**Google Ads**
 2. 个人品牌效应
 3. 存储你的文章，不怕被封，不怕被检测关键字（当然也别乱写）
 4. 反过来影响你进步，比如给自己定目标定期更新
 
-# 注意：网络不是法外之地
+## 注意：网络不是法外之地
 
 ![Untitled.png](https://s2.loli.net/2023/09/09/uLWvTfemQ1PcnZI.png)
 
-# 拓展实践
+## 拓展实践
 
 如何在本地调试自己的博客？
 

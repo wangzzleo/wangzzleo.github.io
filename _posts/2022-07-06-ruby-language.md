@@ -13,7 +13,7 @@ categories:
 ---
 
 
-# ruby language
+## ruby language
 
 2022-07-06
 

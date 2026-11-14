@@ -12,14 +12,14 @@ categories:
   - Spring
 ---
 
-# Spring家族
+## Spring家族
 - Spring Framework
 
 - Spring Boot
   快速构建基于Spring的应用程序
 - Spring Cloud
   简化分布式系统的开发
-# 数据源
+## 数据源
 - HikariCP
   1. 特点
   高性能数据源，速度非常快
@@ -29,8 +29,8 @@ categories:
   3. https://github.com/brettwooldridge/HikariCP
 - Alibaba Druid
   特点：  详细的监控，SQL防注入，内置加密配置，众多扩展点
-# Spring 事务
-## Spring 的事务抽象
+## Spring 事务
+### Spring 的事务抽象
 1. 一致的事务抽象
 - JDBC/Hibernate/MyBatis
 - DataSource/JTA
@@ -72,12 +72,12 @@ TransactionStatus getTransaction(@Nullable TransactionDefinition definition)  th
 | ISOLATION_REPEATABLE_READ | 3 | × | × | 是 |
 | ISOLATION_SERIALIZABLE | 4 | × | × | × |
 
-# ORM框架实践
+## ORM框架实践
 1. Spring Data JPA
     Hibernate是JPA的一种实现。Spring Data JPA用的就是hibernate。
 2. Lombok使用
 
-## MyBatis 相关的一些工具
+### MyBatis 相关的一些工具
  1. MyBatis Generator
 - 运行方式：
     - 命令行
@@ -91,5 +91,5 @@ ${basedir}/src/main/resource/generatorConfig.xml
 2. pagehelper
 https://github.com/pagehelper/Mybatis-PageHelper
 
-# NoSQL 实践
-## Docker辅助开发
+## NoSQL 实践
+### Docker辅助开发

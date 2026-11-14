@@ -11,7 +11,7 @@ categories:
   - 数据库
   - MySQL
 ---
-# MySQL安装
+## MySQL安装
 **1. 查看linux版本：file /sbin/init 或者 file /bin/ls**
 
 **2. 查看系统是否已经安装了mysql的其他版本：**
@@ -135,7 +135,7 @@ ps -ef|grep mysql|grep 'my.cnf'
 mysql --help|grep 'my.cnf'
 ```
 
-# 忘记root密码？
+## 忘记root密码？
 
 1. 在MySQL配置文件：/etc/my.cnf文件中，[mysqld]最后添加一行数据skip-grant-tables```vim /etc/my.cnf```,在[mysqld]最后：```skip-grant-tables```
 

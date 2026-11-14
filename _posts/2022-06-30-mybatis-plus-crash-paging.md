@@ -12,12 +12,12 @@ categories:
   - MyBatis
 ---
 
-# 现象描述
+## 现象描述
 
 - 项目使用Spring Boot + mybatis-plus，当在Idea里启动服务，使用mybatis-plus的分页插件进行分页查询时候，服务就崩溃了。此现象只有在idea才
 - 会出现。使用gradle打包运行不会有此问题。
 
-# 问题复现
+## 问题复现
 
 项目地址：https://github.com/wangzzleo/test-mybatis-plus-crash
 
@@ -31,7 +31,7 @@ categories:
 5. 打开浏览器访问：[http://127.0.0.1:8080/testerr](http://127.0.0.1:8080/testerr)，crash。
 6. 使用gradle构建项目，找到jar包启动。正常启动，访问上述链接，正常。
 
-# 问题分析
+## 问题分析
 
 进入源码发现：`mybatis-plus`的分页插件`PaginationInterceptor`，在进行分页查询时，运行到`PaginationInterceptor#queryTotal` 方法就会出错。
 
@@ -81,13 +81,14 @@ Spring Boot时，会默认选中Enable launch optimization（如下图）。如�
 使用`gradle build`，打包到jar包里的，相关版本是正确的。因为gradle打包时候，如果发生依赖冲突，`gradle`会依照一定的处理原则进行处理，选择某
 一个依赖。具体原则参考：[https://docs.gradle.org/current/userguide/dependency_resolution.html#sec:conflict-resolution](https://docs.gradle.org/current/userguide/dependency_resolution.html#sec:conflict-resolution)
 
-# 拓展
+## 拓展
 
 1. 为什么Idea启动时候要加`-noverify` 启动参数？`-noverify` 有什么作用？
 2. 为什么加了`-noverify`启动参数后，运行到该代码时候进程会直接crash？
 3. crash的机制是什么？哪些情况下JVM会crash？
 
-## `-noverify`
+## 关于`-noverify`
+
 关于为什么Idea要加这个启动参数，启动勾选项上面已经说明了：是为了加快启动速度。
 ![img.png](/img/idea_start_optiol.png)
 
@@ -119,5 +120,5 @@ Spring Boot时，会默认选中Enable launch optimization（如下图）。如�
 
 也就是说是关闭字节码校验的。具体校验什么，可以查看此处： [Verification of class Files](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.10)
 
-## 2、3的问题：为什么会crash？什么情况下crash？
+## 最后：2、3的问题：为什么会crash？什么情况下crash？
 可以看下这篇文章，jvm会处理一些jvm认为可以恢复的错误。其他无法处理的就会crash了。

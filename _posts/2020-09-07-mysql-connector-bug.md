@@ -13,18 +13,18 @@ categories:
 ---
 
 
-# 背景
+## 背景
 项目组最近遇到了一个问题，各应用执行SQL偶尔会变慢，而且无规律可循。因为一些原因，最近数据库环境进行了迁移，访问数据库中间多了一层硬件防火墙，应用服务器也安装了一些杀毒软件。查看慢SQL和GC日志，发现并无异常。
 
-# 描述
-## 项目环境
+## 描述
+### 项目环境
 JDK：1.8
 数据库：MySQL 5.5
 数据库连接池：alibaba Druid 1.1.5/1.1.23
 MySQL驱动版本：mysql-connector-java 5.1.38/8.0.21
 ps：上面列出两个版本是想说明最新版本有同样的问题。
 
-## 数据库连接池配置
+### 数据库连接池配置
 
 ```xml
 <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
@@ -58,13 +58,13 @@ ps：上面列出两个版本是想说明最新版本有同样的问题。
 
 需要注意的是，按照官方说明，这里的配置是有问题的，后面会说到。具体配置请看文档：[DruidDataSource配置属性列表](https://github.com/alibaba/druid/wiki/DruidDataSource%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8)
 
-## 异常描述
-### 异常1
+### 异常描述
+#### 异常1
 SQL执行时间变长前后的日志有如下的异常栈：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200902213813200.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
 可以看到线程`Druid-ConnectionPool-Create-xxx`在执行`SocketInputStream#socketRead0`这个本地方法时超时，这里是在读取响应数据的时候超时的，也就是请求数据已经发送出去了，猜测是连接已经建立了，等待读取数据时候超时的？
 
-### 异常2
+#### 异常2
 后续又发现，应用服务启动时候会阻塞在某个地方导致启动失败，失败时候的线程堆栈dump如下（使用的是[perfma的在线分析工具](https://thread.console.perfma.com/)）：
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200902232551817.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
@@ -74,7 +74,7 @@ SQL执行时间变长前后的日志有如下的异常栈：
 对于以上现象的分析：
 上面两种情况都是卡在了读取数据时候，所以猜测是服务器返回的包在中间某个环节丢失了？（中间加了硬件防火墙和服务器的防火墙，所以肯定是这两个环节的问题）后来就将其中一个应用服务器节点上防火墙停掉了，结果情况并没有改善，所以排除了服务器防火墙的原因。而因为别的原因，硬件防火墙没办法查看分析，提议运维抓包又一直没抓，所以只能瞎猜原因。后面看到的现象是如果多启动几次应用服务会启动成功，所以猜测是某些端口的原因，这个问题没办法只能搁置了，不过总得解决，这个后续还要继续分析，等待更新。这个不是本文重点，重点是接下来的点。
 
-### 异常3
+#### 异常3
 在发现异常1的时候，开始时候分析是数据库连接池的连接已经中断，继续使用连接导致的（现在看来不是这个原因），而druid配置的检查连接是否有效的时间间隔太长甚至是配置可能未生效导致的，所以通过查看Druid的文档，发现我们的配置确实是有问题：
 
 > validationQuery：用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
@@ -151,7 +151,7 @@ if (keepAliveCount > 0) {
 ```
 很明显，需要配置合适的`minEvictableIdleTimeMillis`和`keepAliveBetweenTimeMillis`值，另外还需要配置`keepAlive = true`。通过上述配置，`Destroy`线程的确走到了检查连接有效性的代码部分，看起来问题似乎是解决的。
 
-### 异常4
+#### 异常4
 上面说到，检查连接有效性的配置生效了，我又连接本地数据库简单测试了一下，方法是在应用启动之后关闭MySQL数据库服务，测试结果却和预期不太一样。测试结果显示，数据库服务关闭之后，`Destroy`线程第一次检查完连接，连接依然有效。这是怎么回事？
 点进去`this.validateConnection(connection);`方法查看一下，代码如下：
 ```java
@@ -281,7 +281,7 @@ private void initValidConnectionChecker() {
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200907004217727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM0ODc1MTA2,size_16,color_FFFFFF,t_70#pic_center)
 虽然执行失败了，也算是没有再报NPE了。此时查看`DruidDataSource`对象，会发现剩余的连接依然有效，`Destroy`线程依然在忙碌的进行无效的检查（无用功）。
 以上的测试代码都在我的GitHub仓库里，地址如下：[https://github.com/wangzzleo/druid-bug-demo](https://github.com/wangzzleo/druid-bug-demo)
-### 异常5
+#### 异常5
 以上部分虽然看起来是`Druid`的校验出了问题，虽然`Druid`的有代码默认值的问题，但其实主要问题不在这儿，主要还是`MySQL-Connectot/J`以不期望的方式抛出了一个NPE，这个问题我提到了MySQL的bug系统里，链接如下：[https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67](https://bugs.mysql.com/bug.php?id=97824&thanks=3&notify=67)，说实话，我其实不是很了解人家的代码，不知道是否有意为之，但是感觉NPE一般都不是有意为之的。这个bug并不是我提的，是另一个人提交的，我就是添加了一条评论告诉别人怎么复现。MySQL停机的问题应该不常见，但是在MySQL集群环境下有MySQL服务挂掉应该也是比较常模拟的故障，如果大家有这方面经验也可以告诉我下，战五渣的我其实这方面经验不是很多。后面我会给出我自己的理解，今天就先更新到这儿。另外，Druid是不是也可以提个`issue`什么的，有读者看到可以帮忙提交一下，或者我改天提下。
 
 上面说到`MySQL-Connectot/J`以不期望的方式抛出了一个NPE，咱们就来看下这是怎么回事吧。
@@ -404,9 +404,9 @@ debug发现（debug时候记得设置超时时间，不然不会走到这儿）�
 
 至此，异常分析都结束了，那为什么会出现这样的情况呢？
 
-# 推测
+## 推测
 
-### 验证
+#### 验证
 下面是我当时验证的过程：
 
 `NativeProtocol#sendCommand`出错的情况：
@@ -424,7 +424,7 @@ debug发现（debug时候记得设置超时时间，不然不会走到这儿）�
 
 
 
-### 推测
+#### 推测
 那为什么在服务器关闭后，第一条访问的send不会报错？因为服务器处于FIN_WAIT_2状态还是可以接受数据?
 checkErrorMessage 为什么异常？ 因为没有读到数据？
 (TCP的知识我需要加强一下了)

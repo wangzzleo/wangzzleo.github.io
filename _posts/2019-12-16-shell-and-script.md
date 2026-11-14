@@ -12,7 +12,7 @@ categories:
   - Shell
 ---
 本文是《鸟哥的Linux私房菜》的读书笔记，学习内容来自：[《鸟哥的Linux私房菜》](http://cn.linux.vbird.org/linux_basic)，版权归[鸟哥](http://cn.linux.vbird.org/)。
-# 关于shell
+## 关于shell
 1. 常见shell
 	1. Bourne SHell (sh)
 	2. 在 Sun 里头默认的 C SHell
@@ -25,7 +25,7 @@ categories:
 	登录时，系统会给我用哪个shell？看```/etc/passwd```。  
 	如何知道命令是来自于外部命令(指的是其他非 bash 所提供的命令) 或是内建在 bash 当中的呢？```type [-tpa] name```
 
-# shell变量
+## shell变量
 
 1. 什么是变量？  
 	变量就是以一组文字或符号等，来取代一些配置或者是一串保留的数据！
@@ -138,7 +138,7 @@ categories:
 	7. 使用```=```可以实际地替换变量值。```wangzz=${str=newStr}```
 
 
-# Bash Shell 的操作环境
+## Bash Shell 的操作环境
 1. 命令运行的顺序
 	1. 以相对/绝对路径运行命令，例如『 /bin/ls 』或『 ./ls 』
 	2. 由 alias 找到该命令来运行
@@ -208,7 +208,7 @@ categories:
 | { }	|在中间为命令区块的组合！|
 
 
-# 数据流重导向
+## 数据流重导向
 
 1. 什么是数据流重导向?
 	1. 通常我们运行一个命令，这个命令可能回从文件读取数据，经过处理后，再将数据输出到屏幕上。数据流重导向就是将某个命令运行后应该要出现在屏幕上的数据，给他传输到其他的地方，例如文件或者是装置 (例如打印机之类的)！
@@ -243,7 +243,7 @@ categories:
 			2. 若 cmd1 运行完毕且为错误 ($?≠0)，则开始运行 cmd2。
 
 
-# 管线（管道）命令 (pipe)
+## 管线（管道）命令 (pipe)
 1. 例子：```ls -al|less```
 2. 管线命令```|```仅能处理经由前面一个命令传来的正确信息，也就是 standard output 的信息，对于 stdandard error 并没有直接处理的能力。管道后面必须接一个可以接受标准输入的命令。如： less, more, head, tail
 	1. 管道命令仅会处理 standard output，对于 standard error output 会予以忽略
@@ -347,7 +347,7 @@ categories:
 	1. 上面提到```-```可以当成 stdin 或 stdout。某些命令需要用到文件名 (例如 tar) 来进行处理时，该 stdin 与 stdout 可以利用减号 "-" 来替代， 举例来说：
 		- ```[root@www ~]# tar -cvf - /home | tar -xvf -```
 
-# 正则表达式（鸟哥称为正规表达式）
+## 正则表达式（鸟哥称为正规表达式）
 鸟哥这里用了很大的篇幅介绍正则表达式，这儿大多数编程语言学习时候都会进行学习，所以不做重点学习，大概预览一下。
 
-# 文件的格式化与相关处理
+## 文件的格式化与相关处理

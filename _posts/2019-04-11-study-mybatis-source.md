@@ -31,7 +31,7 @@ public static void main(String[] args) throws Exception {
     }
 ```
 代码很简单，现在debug启动进去看看：
-# 第一行代码   加载配置
+## 第一行代码   加载配置
 `InputStream res = Resources.getResourceAsStream("resources/mybatis-config.xml");`  
 `getResourceAsStream`方法，从各个类加载器路径上尝试加载配置文件：
 ```java
@@ -73,7 +73,7 @@ public static void main(String[] args) throws Exception {
         systemClassLoader};
   }
 ```
-# 第二行代码  构建SqlSessionFactory工厂
+## 第二行代码  构建SqlSessionFactory工厂
 `SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(res);`  
 `build`方法，后两个参数为空，进入该重载方法中：
 ```java
@@ -137,7 +137,7 @@ public static void main(String[] args) throws Exception {
   }
 ```
 至此，`SqlSessionFactory`构建完成。
-# 第三行代码  获取SqlSession
+## 第三行代码  获取SqlSession
 `SqlSession sqlSession = sqlSessionFactory.openSession();`
 `DefaultSqlSessionFactory`的`openSession`方法：
 ```java
@@ -187,7 +187,7 @@ public static void main(String[] args) throws Exception {
     return environment.getTransactionFactory();
   }
 ```
-## TransactionFactory何时创建?
+### TransactionFactory何时创建?
 这儿的`environment.getTransactionFactory()`是如何获取到事务工厂的？
 记得上面的`parseConfiguration`方法吗，里面有如下方法：
 根据[`mybatis-config.xml`](https://www.jianshu.com/p/190c165d948b)配置创建Environment对象
@@ -229,7 +229,7 @@ public static void main(String[] args) throws Exception {
     throw new BuilderException("Environment declaration requires a TransactionFactory.");
   }
 ```
-## `Transaction`创建
+### `Transaction`创建
 看这行代码
 `tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);`
 然后
@@ -242,7 +242,7 @@ public static void main(String[] args) throws Exception {
     return new ManagedTransaction(ds, level, closeConnection);
   }
 ```
-## Executor创建
+### Executor创建
 `final Executor executor = configuration.newExecutor(tx, execType);`
 上面说过，这里的`execType`是`SIMPLE`
 ```java
@@ -265,9 +265,9 @@ public static void main(String[] args) throws Exception {
     return executor;
   }
 ```
-## 下一句创建SqlSession了
+### 下一句创建SqlSession了
 `return new DefaultSqlSession(configuration, executor, autoCommit);`
-# 第四行 创建`Mapper`
+## 第四行 创建`Mapper`
 这应该是最重要的部分：`BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);`
 是从`configuration`里获取的mapper。
 `DefaultSqlSession`的`getMapper`方法：
@@ -298,7 +298,7 @@ public static void main(String[] args) throws Exception {
     }
   }
  ```
-## `XMLConfigBuilder的mapperElement`方法
+### `XMLConfigBuilder的mapperElement`方法
 先回到上面创建`SqlSessionFactory`时提到的`parseConfiguration`方法，里面调用的`mapperElement`方法：
 `mapperElement(root.evalNode("mappers"));`
 ```java
