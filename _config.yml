@@ -9,7 +9,7 @@ timezone: Asia/Shanghai
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 title: 八宝粥的博客
-tagline: 说什么都不合适
+tagline: 点球罚丢之后，比赛并未结束。 
 description: >-
   八宝粥的技术博客，记录 Java、后端架构、分布式系统、Linux 及个人成长思考。
 
@@ -45,6 +45,14 @@ avatar: 'https://github.com/wangzzleo.png'
 
 # Boolean value for TOC in post.
 toc: true
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      toc: true
 
 # Jekyll settings
 theme: jekyll-theme-chirpy

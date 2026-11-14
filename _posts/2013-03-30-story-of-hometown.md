@@ -6,9 +6,10 @@ date:   2013-03-30
 background: '/img/hometown-bg.jpg'
 tags:
   - 生活随笔
+  - 小说
 categories:
   - 生活
-  - 随笔
+  - 小说
 ---
 &emsp;&emsp;一直说要记录下当年的故事，却迟迟未动笔。今天，是时候写下一些东西了。
 
