@@ -40,8 +40,7 @@ google_analytics:
 # img_cdn:
 
 # Avatar image URL or local path
-# avatar: '/assets/img/avatar.png'
-avatar: 'https://github.com/wangzzleo.png'
+avatar: '/assets/img/avatar.png'
 
 # Boolean value for TOC in post.
 toc: true
